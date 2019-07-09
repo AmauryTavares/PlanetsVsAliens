@@ -1,0 +1,15 @@
+local monarch = require('monarch.monarch')
+
+function init(self)
+	msg.post('.', 'acquire_input_focus')
+	self.bt_start = gui.get_node('bt_start')
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash('touch') then
+		if gui.pick_node(self.bt_start, action.x, action.y) then
+			monarch.show(hash('game'))
+			monarch.hide(hash('initial'))
+		end
+	end
+end
