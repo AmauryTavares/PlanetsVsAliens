@@ -1,29 +1,97 @@
-function init(self)
-	-- Add initialization code here
-	-- Remove this function if not needed
-end
+local handleTouch = nil
+local updatePosPlanet = nil
+local sendPosRoutes = nil
+local sendPosPortal = nil
 
-function final(self)
-	-- Add finalization code here
-	-- Remove this function if not needed
+function init(self)
+	msg.post('.', 'acquire_input_focus')
+
+	self.numPlanetSidebar = 5
+	self.boardLine = 5
+	self.boardColumn = 6
+	
+	self.currentPlanetIndex = nil
+	self.initialPosPlanet = nil
+	self.currentPlanetSelect = nil
+
+	sendPosRoutes(self)
+	sendPosPortal(self)
+	msg.post('main:/main#game', 'start')
 end
 
 function update(self, dt)
-	-- Add update code here
-	-- Remove this function if not needed
 end
 
 function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Remove this function if not needed
 end
 
 function on_input(self, action_id, action)
-	-- Add input-handling code here
-	-- Remove this function if not needed
+	if action_id == hash('touch') then
+		handleTouch(self, action)
+	end	
 end
 
-function on_reload(self)
-	-- Add input-handling code here
-	-- Remove this function if not needed
+sendPosPortal = function (self)
+	local portals = {}
+	for i = 1, 5 do
+		local pos = gui.get_screen_position(gui.get_node('portal' .. i))
+		pos.x = pos.x - 80
+		pos.y = pos.y - 55
+		portals[i] = pos
+	end
+
+	msg.post('main:/main#game', 'update_portals', { portals = portals })
 end
+
+sendPosRoutes = function (self)
+	local routes = {}
+	for i = 1, 5 do
+		local pos = gui.get_screen_position(gui.get_node('board' .. i .. '6'))
+		pos.x = 1200
+		routes[i] = pos
+	end
+
+	msg.post('main:/main#game', 'update_routes', { routes = routes })
+end
+
+updatePosPlanet = function (self, touch)
+	if self.currentPlanetIndex then
+		local pos = gui.get_position(self.currentPlanetSelect)
+		gui.set_position(self.currentPlanetSelect, vmath.vector3(pos.x + touch.screen_dx, pos.y + touch.screen_dy, pos.z + 0))
+	end
+end
+
+handleTouch = function (self, touch)
+	-- atualiza posicao do planeta de acordo com o mouse
+	updatePosPlanet(self, touch)
+	
+	if touch.pressed and not self.currentPlanetIndex then
+		for i=1, self.numPlanetSidebar do
+			if gui.pick_node(gui.get_node('planet' .. i), touch.x, touch.y) then
+				self.currentPlanetSelect = gui.get_node('planet' .. i)
+				self.currentPlanetIndex = i
+				self.initialPosPlanet = gui.get_position(self.currentPlanetSelect)
+			end
+		end
+		
+	elseif touch.released and self.currentPlanetIndex then
+		-- Planeta volta a posicao inicial
+		gui.set_position(self.currentPlanetSelect, self.initialPosPlanet)
+
+		-- envia comando de criar planeta
+		for x = 1, self.boardLine do
+			for y = 1, self.boardColumn  do
+				local node = gui.get_node('board' .. x .. y)
+				
+				if gui.pick_node(node, touch.x, touch.y) then
+					local pos = gui.get_screen_position(node)
+					msg.post('main:/main#game', 'spawn_planet', { planetIndex = self.currentPlanetIndex, boardPosX = x, boardPosY = y, posWorld = pos })
+				end
+			end
+		end
+		
+		self.currentPlanetIndex = nil
+		self.currentPlanetSelect = nil
+		self.initialPosPlanet = nil
+	end
+end 

@@ -1,0 +1,89 @@
+local rendercam = require('rendercam.rendercam')
+
+local spawnAlien = nil
+local reduceTime = nil
+local createPortals = nil
+
+function init(self)
+	self.start = false
+	self.board = {}
+
+	self.currentTime = 120 -- segundos
+	self.maxTime = 120 -- segundos
+	self.phase = 1
+	self.currentSpawnTime = 3 -- segundos
+	self.maxSpawnTime = 3 -- segundos
+
+	self.enemyCount = 0
+	
+	self.routes = {}
+	self.portals = {}
+end
+
+function update(self, dt)
+	if self.start then
+		reduce_time(self, dt)
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash('spawn_planet') then
+		local pos = rendercam.screen_to_world_2d(message.posWorld.x, message.posWorld.y)
+
+		if message.planetIndex == 5 then
+			if self.board[message.boardPosX .. message.boardPosY] then
+				msg.post(self.board[message.boardPosX .. message.boardPosY], 'destroy')
+				self.board[message.boardPosX .. message.boardPosY] = nil
+			end
+		elseif not self.board[message.boardPosX .. message.boardPosY] then
+			self.board[message.boardPosX .. message.boardPosY] = factory.create('main:/game#factory_planet1', pos, nil, nil, 0.5)
+		end	
+
+	elseif message_id == hash('update_routes') then
+		self.routes = message.routes
+
+	elseif message_id == hash('update_portals') then
+		self.portals = message.portals
+		createPortals(self)
+		
+	elseif message_id == hash('start') then
+		self.start = true
+	end
+end
+
+createPortals = function (self) 
+	for i = 1, 5 do
+		local portal = self.portals[i]
+		local posWorld = rendercam.screen_to_world_2d(portal.x, portal.y)
+		factory.create('main:/game#factory_portals', posWorld, nil, nil, 0.7)
+	end
+end
+
+spawn_alien = function (self)
+	local route = self.routes[math.random(1, 5)]
+	local posWorld = rendercam.screen_to_world_2d(route.x, route.y)
+	self.enemyCount = self.enemyCount + 1
+	factory.create('main:/game#factory_alien1', posWorld, nil, nil, 0.5)
+end
+
+reduce_time = function (self, dt) 
+	-- decrementa tempo da fase
+	if self.currentTime > 0 then
+		self.currentTime = self.currentTime - dt
+
+		if self.currentTime <= 0 then
+			self.phase = self.phase + 1
+			self.currentTime = self.maxTime
+		end
+	end
+
+	-- decrementa tempo do spawn de alien
+	if self.currentSpawnTime > 0 then
+		self.currentSpawnTime = self.currentSpawnTime - dt
+
+		if self.currentSpawnTime <= 0 then
+			spawn_alien(self)
+			self.currentSpawnTime = self.maxSpawnTime
+		end
+	end 
+end
