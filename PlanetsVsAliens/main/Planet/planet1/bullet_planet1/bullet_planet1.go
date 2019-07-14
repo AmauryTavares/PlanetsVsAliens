@@ -1,6 +1,6 @@
 components {
-  id: "alien1"
-  component: "/main/Alien/alien1/alien1.script"
+  id: "bullet_planet1"
+  component: "/main/Planet/planet1/bullet_planet1/bullet_planet1.script"
   position {
     x: 0.0
     y: 0.0
@@ -16,7 +16,7 @@ components {
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "tile_set: \"/assets/Aliens/alien1/alien1.atlas\"\n"
+  data: "tile_set: \"/assets/Planets/planet1/bullet_planet1/bullet_planet1.atlas\"\n"
   "default_animation: \"idle\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
@@ -41,10 +41,8 @@ embedded_components {
   "mass: 0.0\n"
   "friction: 0.1\n"
   "restitution: 0.5\n"
-  "group: \"enemy\"\n"
-  "mask: \"portal\"\n"
-  "mask: \"planet\"\n"
-  "mask: \"bullet\"\n"
+  "group: \"bullet\"\n"
+  "mask: \"enemy\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_BOX\n"
@@ -62,8 +60,8 @@ embedded_components {
   "    index: 0\n"
   "    count: 3\n"
   "  }\n"
-  "  data: 69.8\n"
-  "  data: 70.459\n"
+  "  data: 19.54\n"
+  "  data: 19.7675\n"
   "  data: 10.0\n"
   "}\n"
   "linear_damping: 0.0\n"

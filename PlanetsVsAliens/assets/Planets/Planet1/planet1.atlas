@@ -1,7 +1,7 @@
 animations {
   id: "idle"
   images {
-    image: "/assets/Planets/Planet1/planet_img.png"
+    image: "/assets/Planets/planet1/planet_img.png"
   }
   playback: PLAYBACK_NONE
   fps: 60

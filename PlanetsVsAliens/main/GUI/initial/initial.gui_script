@@ -1,15 +1,40 @@
 local monarch = require('monarch.monarch')
+local playerdata = require('oyster.playerdata')
+
+local handleOverStart = nil
 
 function init(self)
 	msg.post('.', 'acquire_input_focus')
+	self.mouseOverStart = false
 	self.bt_start = gui.get_node('bt_start')
+	self.lb_stars = gui.get_node('lb_stars')
+	self.lb_score = gui.get_node('lb_score')
+
+	gui.set_text(self.lb_stars, playerdata.getAll(1).stars)
+	gui.set_text(self.lb_score, 'Recorde: ' .. playerdata.getAll(1).score)
 end
 
 function on_input(self, action_id, action)
-	if action_id == hash('touch') then
+	if action_id == nil then
+		handleOverStart(self, action)
+	elseif action_id == hash('touch') then
 		if gui.pick_node(self.bt_start, action.x, action.y) then
 			monarch.show(hash('game'))
 			monarch.hide(hash('initial'))
+		end
+	end
+end
+
+handleOverStart = function (self, action) 
+	if gui.pick_node(self.bt_start, action.x, action.y) then
+		if not self.mouseOverStart then
+			gui.set_color(self.bt_start, vmath.vector3(55, 56, 59))
+			self.mouseOverStart = true
+		end
+	else 
+		if self.mouseOverStart then
+			gui.set_color(self.bt_start, vmath.vector3(1, 1, 1))
+			self.mouseOverStart = false
 		end
 	end
 end

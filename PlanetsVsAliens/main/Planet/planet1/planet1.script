@@ -1,6 +1,11 @@
+go.property('cooldownAttack', 3) -- segundos
+
+local attack = nil
+local reduceTime = nil
+
 function init(self)
-	-- Add initialization code here
-	-- Remove this function if not needed
+	self.start_attack = false
+	self.currentCooldownAttack = self.cooldownAttack
 end
 
 function final(self)
@@ -9,12 +14,32 @@ function final(self)
 end
 
 function update(self, dt)
-	-- Add update code here
-	-- Remove this function if not needed
+	reduceTime(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash('destroy') then
+	if message_id == hash('start_attack') then
+		self.start_attack = true
+	elseif message_id == hash('stop_attack') then
+		self.start_attack = stop
+		self.currentCooldownAttack = self.cooldownAttack
+	elseif message_id == hash('destroy') then
 		go.delete()
 	end
+end
+
+reduceTime = function (self, dt)
+	if self.start_attack then
+		self.currentCooldownAttack = self.currentCooldownAttack - dt
+
+		if self.currentCooldownAttack <= 0 then
+			attack(self)
+			self.currentCooldownAttack = self.cooldownAttack
+		end
+	end
+end
+
+attack = function (self)
+	local pos = go.get_position()
+	factory.create('#factory_attack', pos, nil, { speed = 180, time = 3 }, 0.3)
 end

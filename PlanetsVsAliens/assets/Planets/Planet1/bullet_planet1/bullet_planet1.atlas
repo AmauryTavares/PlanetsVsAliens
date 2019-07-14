@@ -1,7 +1,7 @@
 animations {
   id: "idle"
   images {
-    image: "/assets/Aliens/alien1/alien_img.png"
+    image: "/assets/Planets/planet1/bullet_planet1/bullet_img.png"
   }
   playback: PLAYBACK_NONE
   fps: 60

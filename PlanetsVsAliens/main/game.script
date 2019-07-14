@@ -1,44 +1,66 @@
 local rendercam = require('rendercam.rendercam')
 
+local oyster = require('oyster.oyster')
+local gamestate = require('oyster.gamestate')
+local playerdata = require('oyster.playerdata')
+
+local playerdataFilePath = sys.get_save_file('PlanetsVsAliens', 'playerdata')
+
 local spawnAlien = nil
 local reduceTime = nil
 local createPortals = nil
+local alertRoute = nil
+local alertAllEnemyRouteAttack = nil
+local alertAllEnemyRouteStop = nil
+local loadData = nil
 
 function init(self)
-	self.start = false
 	self.board = {}
 
+	self.numRoutes = 5
 	self.currentTime = 120 -- segundos
 	self.maxTime = 120 -- segundos
 	self.phase = 1
 	self.currentSpawnTime = 3 -- segundos
 	self.maxSpawnTime = 3 -- segundos
 
-	self.enemyCount = 0
-	
+	self.countEnemyRoutes = { 0, 0, 0, 0, 0 }
 	self.routes = {}
 	self.portals = {}
+
+	loadData(self)
+end
+
+function final(self) 
+	if not sys.save(playerdataFilePath, playerdata.getAll(1)) then
+		print('Erro ao salvar dados.')
+	end
 end
 
 function update(self, dt)
-	if self.start then
+	if gamestate.is('PLAY') then
 		reduce_time(self, dt)
+		alertRoute(self)
 	end
 end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash('spawn_planet') then
 		local pos = rendercam.screen_to_world_2d(message.posWorld.x, message.posWorld.y)
-
+		-- deleta planeta
 		if message.planetIndex == 5 then
 			if self.board[message.boardPosX .. message.boardPosY] then
 				msg.post(self.board[message.boardPosX .. message.boardPosY], 'destroy')
 				self.board[message.boardPosX .. message.boardPosY] = nil
 			end
 		elseif not self.board[message.boardPosX .. message.boardPosY] then
-			self.board[message.boardPosX .. message.boardPosY] = factory.create('main:/game#factory_planet1', pos, nil, nil, 0.5)
+			-- invoca planeta
+			self.board[message.boardPosX .. message.boardPosY] = factory.create('main:/game#factory_planet1', pos, nil, nil, 0.6)
 		end	
 
+	elseif message_id == hash('enemy_kill') then
+		print(message.route)
+		self.countEnemyRoutes[message.route] = self.countEnemyRoutes[message.route] - 1
 	elseif message_id == hash('update_routes') then
 		self.routes = message.routes
 
@@ -51,6 +73,45 @@ function on_message(self, message_id, message, sender)
 	end
 end
 
+loadData = function (self)
+	local file = sys.load(playerdataFilePath)
+
+	if not next(file) then
+		print('vazio')
+		file = require('main.data.playerdata')
+	end
+
+	playerdata.setAll(1, file)	
+	
+	oyster.set('planetsdata', require('main.data.planetsdata'))
+	oyster.set('aliensdata', require('main.data.aliensdata'))
+end
+
+-- alerta todos os inimigos para comeca a atacar
+alertAllEnemyRouteAttack = function (self, route)
+	for i = 1, 6 do
+		msg.post(self.board[route .. i], 'start_attack')
+	end
+end
+
+-- alerta todos os inimigos para parar de atacar
+alertAllEnemyRouteStop = function (self, route)
+	for i = 1, 6 do
+		msg.post(self.board[route .. i], 'stop_attack')
+	end
+end
+
+-- alerta todas as rotas da existencia de alienigenas
+alertRoute = function (self)
+	for i = 1, self.numRoutes do
+		if self.countEnemyRoutes[i] > 0 then
+			alertAllEnemyRouteAttack(self, i)
+		else
+			alertAllEnemyRouteStop(self, i)
+		end
+	end
+end
+
 createPortals = function (self) 
 	for i = 1, 5 do
 		local portal = self.portals[i]
@@ -60,10 +121,11 @@ createPortals = function (self)
 end
 
 spawn_alien = function (self)
-	local route = self.routes[math.random(1, 5)]
+	local randomRoute = math.random(1, self.numRoutes)
+	local route = self.routes[randomRoute]
 	local posWorld = rendercam.screen_to_world_2d(route.x, route.y)
-	self.enemyCount = self.enemyCount + 1
-	factory.create('main:/game#factory_alien1', posWorld, nil, nil, 0.5)
+	self.countEnemyRoutes[randomRoute] = self.countEnemyRoutes[randomRoute] + 1
+	factory.create('main:/game#factory_alien1', posWorld, nil, { route = randomRoute }, 0.6)
 end
 
 reduce_time = function (self, dt) 
