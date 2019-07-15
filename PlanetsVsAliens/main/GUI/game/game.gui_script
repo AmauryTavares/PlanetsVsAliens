@@ -1,9 +1,12 @@
 local gamestate = require('oyster.gamestate')
+local playerdata = require('oyster.playerdata')
+local oyster = require('oyster.oyster')
 
 local handleTouch = nil
 local updatePosPlanet = nil
 local sendPosRoutes = nil
 local sendPosPortal = nil
+local loadPlanetSidebar = nil
 
 function init(self)
 	msg.post('.', 'acquire_input_focus')
@@ -17,9 +20,11 @@ function init(self)
 	self.currentPlanetIndex = nil
 	self.initialPosPlanet = nil
 	self.currentPlanetSelect = nil
+	self.planetsSelected = oyster.get('planets_selected')
 
 	sendPosRoutes(self)
 	sendPosPortal(self)
+	loadPlanetSidebar(self)
 	gamestate.set('PLAY')
 end
 
@@ -35,6 +40,20 @@ function on_input(self, action_id, action)
 	end	
 end
 
+-- carrega os planetas na sidebar
+loadPlanetSidebar = function (self)
+	for i = 1, self.numPlanetSidebar - 1 do
+		local levels = playerdata.getAll(1).planets
+		local planets = oyster.get('planetsdata').planets
+		local imgPlanetSidebar = gui.get_node('img_planet' .. i)
+		local levelPlanetSidebar = gui.get_node('lb_price_planet' .. i)
+		local idPlanet = self.planetsSelected[i]
+		local idLevel = levels[idPlanet]
+		
+		gui.set_text(levelPlanetSidebar, planets[idPlanet].status[idLevel].price)
+	end
+end
+-- envia posicao dos portais
 sendPosPortal = function (self)
 	local portals = {}
 	for i = 1, 5 do

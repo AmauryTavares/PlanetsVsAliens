@@ -5,7 +5,7 @@ return {
 			name = 'Mercurio',
 			status = {
 				{
-					price = 200,
+					price = 100,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -32,14 +32,14 @@ return {
 			name = 'Venus',
 			status = {
 				{
-					price = 200,
+					price = 500,
 					effects = {},
 					attack = 10,
 					life = 200, 
 					cooldownAttack = 4
 				},
 				{
-					price = 200,
+					price = 700,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -59,7 +59,7 @@ return {
 			name = 'Terra',
 			status = {
 				{
-					price = 200,
+					price = 250,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -73,7 +73,7 @@ return {
 					cooldownAttack = 4
 				},
 				{
-					price = 200,
+					price = 1000,
 					effects = {},
 					attack = 10,
 					life = 200, 

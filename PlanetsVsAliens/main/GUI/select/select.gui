@@ -1244,8 +1244,8 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
+    x: 0.6
+    y: 0.3019608
     z: 0.0
     w: 1.0
   }
@@ -1258,8 +1258,8 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   outline {
-    x: 0.0
-    y: 0.0
+    x: 0.6
+    y: 0.2
     z: 0.0
     w: 1.0
   }
@@ -1543,8 +1543,8 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
+    x: 0.6
+    y: 0.3019608
     z: 0.0
     w: 1.0
   }
@@ -1557,8 +1557,8 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   outline {
-    x: 0.0
-    y: 0.0
+    x: 0.6
+    y: 0.2
     z: 0.0
     w: 1.0
   }
@@ -1842,8 +1842,8 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
+    x: 0.6
+    y: 0.3019608
     z: 0.0
     w: 1.0
   }
@@ -1856,8 +1856,8 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   outline {
-    x: 0.0
-    y: 0.0
+    x: 0.6
+    y: 0.2
     z: 0.0
     w: 1.0
   }
@@ -2141,8 +2141,8 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
+    x: 0.6
+    y: 0.3019608
     z: 0.0
     w: 1.0
   }
@@ -2155,8 +2155,8 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   outline {
-    x: 0.0
-    y: 0.0
+    x: 0.6
+    y: 0.2
     z: 0.0
     w: 1.0
   }
@@ -2440,8 +2440,8 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
+    x: 0.6
+    y: 0.3019608
     z: 0.0
     w: 1.0
   }
@@ -2454,8 +2454,8 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   outline {
-    x: 0.0
-    y: 0.0
+    x: 0.6
+    y: 0.2
     z: 0.0
     w: 1.0
   }
@@ -2739,8 +2739,8 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
+    x: 0.6
+    y: 0.3019608
     z: 0.0
     w: 1.0
   }
@@ -2753,8 +2753,8 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   outline {
-    x: 0.0
-    y: 0.0
+    x: 0.6
+    y: 0.2
     z: 0.0
     w: 1.0
   }
@@ -3038,8 +3038,8 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
+    x: 0.6
+    y: 0.3019608
     z: 0.0
     w: 1.0
   }
@@ -3052,8 +3052,8 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   outline {
-    x: 0.0
-    y: 0.0
+    x: 0.6
+    y: 0.2
     z: 0.0
     w: 1.0
   }
@@ -3337,8 +3337,8 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
+    x: 0.6
+    y: 0.3019608
     z: 0.0
     w: 1.0
   }
@@ -3351,8 +3351,8 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   outline {
-    x: 0.0
-    y: 0.0
+    x: 0.6
+    y: 0.2
     z: 0.0
     w: 1.0
   }
@@ -3636,8 +3636,8 @@ nodes {
     w: 1.0
   }
   color {
-    x: 1.0
-    y: 1.0
+    x: 0.6
+    y: 0.3019608
     z: 0.0
     w: 1.0
   }
@@ -3650,8 +3650,8 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   outline {
-    x: 0.0
-    y: 0.0
+    x: 0.6
+    y: 0.2
     z: 0.0
     w: 1.0
   }

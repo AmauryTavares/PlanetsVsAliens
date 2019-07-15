@@ -7,6 +7,7 @@ function init(self)
 	msg.post('.', 'acquire_input_focus')
 	self.mouseOverStart = false
 	self.bt_start = gui.get_node('bt_start')
+	self.bt_planets = gui.get_node('bt_planets')
 	self.lb_stars = gui.get_node('lb_stars')
 	self.lb_score = gui.get_node('lb_score')
 
@@ -21,6 +22,9 @@ function on_input(self, action_id, action)
 		if gui.pick_node(self.bt_start, action.x, action.y) then
 			monarch.show(hash('select'))
 			monarch.hide(hash('initial'))
+		elseif gui.pick_node(self.bt_planets, action.x, action.y) then
+			monarch.show('planets')
+			monarch.hide('initial')
 		end
 	end
 end

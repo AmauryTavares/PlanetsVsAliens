@@ -121,7 +121,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -4.051
+    y: -1.157
     z: 0.0
     w: 1.0
   }
@@ -325,9 +325,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.7019608
-    y: 0.3019608
-    z: 0.101960786
+    x: 0.9019608
+    y: 0.9019608
+    z: 0.3019608
     w: 1.0
   }
   type: TYPE_TEXT
@@ -339,9 +339,9 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   outline {
-    x: 0.0
-    y: 0.0
-    z: 0.5019608
+    x: 0.9019608
+    y: 0.9019608
+    z: 0.3019608
     w: 1.0
   }
   shadow {
@@ -353,6 +353,124 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
   parent: "background"
+  layer: ""
+  inherit_alpha: true
+  alpha: 1.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: -87.235
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.238
+    y: 0.126
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "bt_planets"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_NW
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "background"
+  layer: ""
+  inherit_alpha: false
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 99.367
+    y: -53.592
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.965
+    y: 4.051
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 80.0
+    y: 15.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 0.8
+    y: 0.4
+    z: 0.2
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "Planetas"
+  font: "system_font"
+  id: "lb_planets"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 0.8
+    y: 0.4
+    z: 0.2
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  parent: "bt_planets"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
