@@ -1,0 +1,168 @@
+local monarch = require('monarch.monarch')
+local oyster = require('oyster.oyster')
+local playerdata = require('oyster.playerdata')
+
+local handleClick = nil
+local checkLimitScroll = nil
+local checkPlanetsHasAdded = nil
+local checkSlotEmpty = nil
+local handleChoose = nil
+local loadPlanets = nil
+local disableAllSelected = nil
+local addPlanetSelected = nil
+local removePlanetSelected = nil
+
+local WIDTH = sys.get_config('display.width')
+
+function init(self)
+	msg.post('.', 'acquire_input_focus')
+
+	self.scrolling = false
+	
+	self.numPlanets = 9
+	self.numSlots = 4
+	
+	self.bt_back = gui.get_node('bt_back')
+	self.box_select = gui.get_node('box_select')
+	self.bt_start = gui.get_node('bt_start')
+
+	self.planetsSelected = {0, 0, 0, 0}
+	
+	self.width_box_select = 3523 -- pixels
+	loadPlanets(self)
+	disableAllSelected(self)
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash('touch') then	
+		handleClick(self, action)
+	end
+end
+
+-- inicialmente desabilita todos os planetas selecionados
+disableAllSelected = function (self)
+	for i = 1, self.numSlots do
+		gui.set_enabled(gui.get_node('img_planet_selected' .. i), false)
+		gui.set_enabled(gui.get_node('lb_level_selected' .. i), false)
+	end
+end
+-- remove planeta selecionado do slot
+removePlanetSelected = function (self, idSelect, idSlot)
+	local imgPlanetSelected = gui.get_node('img_planet_selected' .. idSlot)
+	local levelPlanetSelected = gui.get_node('lb_level_selected' .. idSlot)
+	
+	gui.set_enabled(imgPlanetSelected, false)
+	gui.set_enabled(levelPlanetSelected, false)
+
+	gui.set_inherit_alpha(gui.get_node('select' .. idSelect), false)
+
+	self.planetsSelected[idSlot] = 0
+end
+
+-- adiciona planeta selecionado ao seu slot
+addPlanetSelected = function (self, idSelect, idSlot)
+	local imgPlanetSelected = gui.get_node('img_planet_selected' .. idSlot)
+	local levelPlanetSelected = gui.get_node('lb_level_selected' .. idSlot)
+	local levels = playerdata.getAll(1).planets
+
+	gui.set_text(levelPlanetSelected, 'Level ' .. levels[idSelect])
+
+	gui.set_enabled(imgPlanetSelected, true)
+	gui.set_enabled(levelPlanetSelected, true)
+end
+
+-- trata a escolha do usuario, deixando os planetas selecionados com opacidade baixa
+handleChoose = function (sel, idSelect, idSlot)
+	gui.set_inherit_alpha(gui.get_node('select' .. idSelect), true)
+	
+	addPlanetSelected(self, idSelect, idSlot)
+end
+
+checkPlanetsHasAdded = function (self, id) 
+	for i = 1, self.numSlots do
+		if self.planetsSelected[i] == id then
+			return true
+		end
+	end
+
+	return false
+end
+
+checkSlotEmpty = function (self) 
+	for i = 1, self.numSlots do
+		if self.planetsSelected[i] == 0 then
+			return i
+		end
+	end
+
+	return -1
+end
+
+loadPlanets = function (self)
+	local levels = playerdata.getAll(1).planets
+	
+	for i, planet in ipairs(oyster.get('planetsdata').planets) do
+		gui.set_text(gui.get_node('lb_name_select' .. i), planet.name)
+		gui.set_text(gui.get_node('lb_level_select' .. i), 'Level ' .. levels[i])
+		gui.set_text(gui.get_node('lb_price_select' .. i), planet.status[levels[i]].price)
+		-- gui.set_texture(gui.get_node('img_planet_select' .. i), texture)
+	end
+end
+
+checkLimitScroll = function (self, pos)
+	if pos.x <=  0 and pos.x >= - (self.width_box_select - WIDTH)  then
+		return true
+	end
+	
+	return false
+end
+
+handleClick = function (self, action)
+	if gui.pick_node(self.bt_back, action.x, action.y) then
+		monarch.back()
+	elseif gui.pick_node(self.bt_start, action.x, action.y) then
+		if checkSlotEmpty(self) == -1 then
+			monarch.show('game')
+			monarch.hide('select')
+		end
+	elseif action.released and not self.scrolling then
+		self.scrolling = false
+
+		-- adiciona planetas ao time
+		for i = 1, self.numPlanets do
+			local node = gui.get_node('select' .. i)
+			if gui.pick_node(node, action.x, action.y) then
+				-- verifica se o planeta ja nao foi adicionado e se tem slot disponivel
+				local id = checkSlotEmpty(self)
+				if not (checkPlanetsHasAdded(self, i)) and not (id == -1) then
+					self.planetsSelected[id] = i
+					handleChoose(self, i, id)
+				end
+			end
+		end
+
+		-- remove planetas do time
+		for i = 1, self.numSlots do
+			local node = gui.get_node('selected' .. i)
+			if gui.pick_node(node, action.x, action.y) then
+				print('aa')
+				local id = self.planetsSelected[i]
+				removePlanetSelected(self, id, i)
+			end
+		end	
+	elseif action.released then
+		self.scrolling = false
+	elseif gui.pick_node(self.box_select, action.x, action.y) then
+		local pos = gui.get_position(self.box_select)
+		pos.x = pos.x + action.screen_dx
+
+		if action.screen_dx >= 1 then
+			self.scrolling = true
+		end
+
+		-- checa se o scroll nao passou do limite
+		if checkLimitScroll(self, pos) then
+			gui.set_position(self.box_select, pos)
+		end
+	end
+end

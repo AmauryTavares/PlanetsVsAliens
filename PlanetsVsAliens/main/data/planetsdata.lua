@@ -2,7 +2,7 @@ return {
 	planets = {
 		{
 			id = 1,
-			name = 'Mércurio',
+			name = 'Mercurio',
 			status = {
 				{
 					price = 200,
@@ -110,7 +110,7 @@ return {
 		},
 		{
 			id = 5,
-			name = 'Júpiter',
+			name = 'Jupiter',
 			status = {
 				{
 					price = 200,
@@ -218,7 +218,7 @@ return {
 		},
 		{
 			id = 9,
-			name = 'Plutão',
+			name = 'Plutao',
 			status = {
 				{
 					price = 200,

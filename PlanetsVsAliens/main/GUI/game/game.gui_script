@@ -51,7 +51,7 @@ sendPosRoutes = function (self)
 	local routes = {}
 	for i = 1, 5 do
 		local pos = gui.get_screen_position(gui.get_node('board' .. i .. '6'))
-		pos.x = 1400--2100
+		pos.x = pos.x + 200 --2100
 		routes[i] = pos
 	end
 
