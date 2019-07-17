@@ -111,7 +111,7 @@ loadPlanets = function (self)
 	for i, planet in ipairs(oyster.get('planetsdata').planets) do
 		gui.set_text(gui.get_node('lb_name_select' .. i), planet.name)
 		gui.set_text(gui.get_node('lb_level_select' .. i), 'Level ' .. levels[i])
-		gui.set_text(gui.get_node('lb_price_select' .. i), planet.status[levels[i]].price)
+		gui.set_text(gui.get_node('lb_price_select' .. i), planet.status[levels[i]].fragment)
 		-- gui.set_texture(gui.get_node('img_planet_select' .. i), texture)
 	end
 end

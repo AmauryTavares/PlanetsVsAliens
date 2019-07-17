@@ -1,29 +1,153 @@
+local monarch = require('monarch.monarch')
+
+local oyster = require('oyster.oyster')
+local playerdata = require('oyster.playerdata')
+
+local playerdataFilePath = sys.get_save_file('PlanetsVsAliens', 'playerdata')
+
+local loadPlanets = nil
+local loadDetailPlanet = nil
+local loadInfoPlanet = nil
+local loadStatusUpgrade = nil
+local upgradePlanet = nil
+local loadStars = nil
+
 function init(self)
-	-- Add initialization code here
-	-- Remove this function if not needed
-end
+	msg.post('.', 'acquire_input_focus')
 
-function final(self)
-	-- Add finalization code here
-	-- Remove this function if not needed
-end
+	self.numPlanets = 9
 
-function update(self, dt)
-	-- Add update code here
-	-- Remove this function if not needed
-end
+	self.enableUpgrade = false
+	self.planetInfoSelect = 1
 
-function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Remove this function if not needed
+	self.levels = playerdata.getAll(1).planets
+	self.planets = oyster.get('planetsdata').planets
+	self.lb_name_planet = gui.get_node('lb_name_planet')
+	self.lb_level_planet = gui.get_node('lb_level_planet')
+	self.lb_attack_planet = gui.get_node('lb_attack_planet')
+	self.lb_add_attack_planet = gui.get_node('lb_add_attack_planet')
+	self.lb_life_planet = gui.get_node('lb_life_planet')
+	self.lb_add_life_planet = gui.get_node('lb_add_life_planet')
+	self.lb_cooldown_attack_planet = gui.get_node('lb_cooldown_attack_planet')
+	self.lb_add_cooldown_attack_planet = gui.get_node('lb_add_cooldown_attack_planet')
+	self.lb_price_planet = gui.get_node('lb_price_planet')
+	self.lb_stars = gui.get_node('lb_stars')
+	self.bt_upgrade = gui.get_node('bt_upgrade')
+	self.lb_upgrade = gui.get_node('lb_upgrade')
+	self.bt_back = gui.get_node('bt_back')
+	
+	loadStars(self)
+	
+	loadPlanets(self)
+	loadDetailPlanet(self, self.planetInfoSelect)
 end
 
 function on_input(self, action_id, action)
-	-- Add input-handling code here
-	-- Remove this function if not needed
+	if action_id == hash('touch') then
+		if gui.pick_node(self.bt_back, action.x, action.y) then
+			monarch.back()
+		elseif action.released and self.enableUpgrade and gui.pick_node(self.bt_upgrade, action.x, action.y) then
+			upgradePlanet(self)
+		else
+			for i = 1, self.numPlanets do
+				local node = gui.get_node('planet' .. i)
+				if gui.pick_node(node, action.x, action.y) then
+					loadDetailPlanet(self, i)
+				end
+			end
+		end
+	end	
 end
 
-function on_reload(self)
-	-- Add input-handling code here
-	-- Remove this function if not needed
+loadStars = function (self)
+	gui.set_text(self.lb_stars, playerdata.getAll(1).stars)
+end
+
+upgradePlanet = function (self)
+	local currentPlayerdata = playerdata.getAll(1)
+	local diffStars = currentPlayerdata.stars - gui.get_text(self.lb_price_planet)
+
+	if diffStars >= 0 then
+		currentPlayerdata.stars = diffStars
+		currentPlayerdata.planets[self.planetInfoSelect] = currentPlayerdata.planets[self.planetInfoSelect] + 1
+		playerdata.setAll(1, currentPlayerdata)
+		
+		if not sys.save(playerdataFilePath, playerdata.getAll(1)) then
+			print('Erro ao salvar dados.')
+		end
+
+		loadDetailPlanet(self, self.planetInfoSelect)
+		loadPlanets(self)
+		loadStars(self)
+	end
+end
+
+loadStatusUpgrade = function (node, statusAttribute, statusUpgradePlanet, nameStatus)
+	gui.set_enabled(node, true)
+	gui.set_text(node, '(' .. statusAttribute .. ')')
+end
+
+loadInfoPlanet = function (self, idPlanet)
+	local levelPlanet = self.levels[idPlanet]
+	local namePlanet = self.planets[idPlanet].name
+	local statusPlanet = self.planets[idPlanet].status[levelPlanet]
+	local statusUpgradePlanet = self.planets[idPlanet].status[levelPlanet + 1]
+	
+	gui.set_text(self.lb_name_planet, namePlanet)
+	gui.set_text(self.lb_level_planet, 'Level ' .. levelPlanet)
+
+	gui.set_text(self.lb_attack_planet, 'Ataque: ' .. statusPlanet.attack)
+	gui.set_text(self.lb_life_planet, 'Vida: ' .. statusPlanet.life)
+	gui.set_text(self.lb_cooldown_attack_planet, 'Velocidade de ataque: ' .. string.format('%.1f', statusPlanet.cooldownAttack) .. 's')
+
+	if statusUpgradePlanet then
+		loadStatusUpgrade(self.lb_add_attack_planet, string.format('+%d', statusUpgradePlanet.attack - statusPlanet.attack), statusUpgradePlanet, 'attack')
+		loadStatusUpgrade(self.lb_add_life_planet, string.format('+%d', statusUpgradePlanet.life - statusPlanet.life), statusUpgradePlanet, 'life')
+		loadStatusUpgrade(self.lb_add_cooldown_attack_planet, string.format('%.1fs', statusUpgradePlanet.cooldownAttack - statusPlanet.cooldownAttack),
+		statusUpgradePlanet, 'cooldownAttack')
+		
+		gui.set_enabled(self.lb_price_planet, true)
+		gui.set_text(self.lb_price_planet, statusUpgradePlanet.price)
+
+		gui.set_color(self.bt_upgrade, vmath.vector3(1, 1, 1))
+		gui.set_text(self.lb_upgrade, 'Evoluir!')
+		gui.set_color(self.lb_upgrade, vmath.vector3(0, 128, 0))
+		self.enableUpgrade = true
+	else
+		gui.set_enabled(self.lb_add_attack_planet, false)
+		gui.set_enabled(self.lb_add_life_planet, false)
+		gui.set_enabled(self.lb_add_cooldown_attack_planet, false)
+		gui.set_enabled(self.lb_price_planet, false)
+
+		gui.set_color(self.bt_upgrade, vmath.vector3(0, 0, 128))
+		gui.set_text(self.lb_upgrade, 'Maximo')
+		gui.set_color(self.lb_upgrade, vmath.vector3(1, 1, 1))
+		self.enableUpgrade = false
+	end
+end
+
+-- Muda opacidade dos box e muda informacoes dos planetas
+loadDetailPlanet = function (self, idPlanet)
+	local planetPreviousSelect = gui.get_node('planet' .. self.planetInfoSelect) 
+	local planetCurrentSelect = gui.get_node('planet' .. idPlanet)
+
+	gui.set_inherit_alpha(planetPreviousSelect, false)
+	gui.set_inherit_alpha(planetCurrentSelect, true)
+
+	loadInfoPlanet(self, idPlanet)
+
+	self.planetInfoSelect = idPlanet
+end
+
+-- carrega os box dos planetas
+loadPlanets = function (self)
+	for i = 1, self.numPlanets do
+		local lb_name_planet = gui.get_node('lb_name_planet' .. i)
+		local lb_level_planet = gui.get_node('lb_level_planet' .. i)
+		local levelPlanet = self.levels[i]
+		local namePlanet = self.planets[i].name
+			
+		gui.set_text(lb_name_planet, namePlanet)
+		gui.set_text(lb_level_planet, 'Level ' .. levelPlanet)
+	end
 end

@@ -1,4 +1,5 @@
 local rendercam = require('rendercam.rendercam')
+local monarch = require('monarch.monarch')
 
 local oyster = require('oyster.oyster')
 local gamestate = require('oyster.gamestate')
@@ -24,6 +25,10 @@ function init(self)
 	self.currentSpawnTime = 3 -- segundos
 	self.maxSpawnTime = 3 -- segundos
 
+	self.currentStars = 0
+	self.currentFragments = 300
+	self.currentLife = 100
+	
 	self.countEnemyRoutes = { 0, 0, 0, 0, 0 }
 	self.routes = {}
 	self.portals = {}
@@ -46,20 +51,28 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash('spawn_planet') then
+		local levels = playerdata.getAll(1).planets
+		local planets = oyster.get('planetsdata').planets
+		local planetsSelected = oyster.get('planets_selected')
+		
 		local pos = rendercam.screen_to_world_2d(message.posWorld.x, message.posWorld.y)
+		local idPlanet = planetsSelected[message.planetIndex]
+		local idLevel = levels[idPlanet]
+		
 		-- deleta planeta
 		if message.planetIndex == 5 then
 			if self.board[message.boardPosX .. message.boardPosY] then
 				msg.post(self.board[message.boardPosX .. message.boardPosY], 'destroy')
 				self.board[message.boardPosX .. message.boardPosY] = nil
 			end
-		elseif not self.board[message.boardPosX .. message.boardPosY] then
+		elseif not self.board[message.boardPosX .. message.boardPosY] and self.currentFragments >= planets[idPlanet].status[idLevel].fragment then
 			-- invoca planeta
-			self.board[message.boardPosX .. message.boardPosY] = factory.create('main:/game#factory_planet1', pos, nil, nil, 0.6)
+			self.board[message.boardPosX .. message.boardPosY] = factory.create('game#factory_planet1', pos, nil, nil, 0.6)
+			self.currentFragments = self.currentFragments - planets[idPlanet].status[idLevel].fragment
+			msg.post('game:/go#game', 'update_fragments', { fragments = self.currentFragments })
 		end	
 
 	elseif message_id == hash('enemy_kill') then
-		print(message.route)
 		self.countEnemyRoutes[message.route] = self.countEnemyRoutes[message.route] - 1
 	elseif message_id == hash('update_routes') then
 		self.routes = message.routes
@@ -77,7 +90,6 @@ loadData = function (self)
 	local file = sys.load(playerdataFilePath)
 
 	if not next(file) then
-		print('vazio')
 		file = require('main.data.playerdata')
 	end
 

@@ -6,20 +6,23 @@ return {
 			status = {
 				{
 					price = 100,
+					fragment = 100,
 					effects = {},
 					attack = 10,
 					life = 200, 
 					cooldownAttack = 4
 				},
 				{
-					price = 200,
+					price = 300,
+					fragment = 100,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 20,
+					life = 350, 
+					cooldownAttack = 3.7
 				},
 				{
 					price = 200,
+					fragment = 100,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -33,6 +36,7 @@ return {
 			status = {
 				{
 					price = 500,
+					fragment = 200,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -40,6 +44,7 @@ return {
 				},
 				{
 					price = 700,
+					fragment = 200,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -47,6 +52,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 200,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -60,6 +66,7 @@ return {
 			status = {
 				{
 					price = 250,
+					fragment = 300,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -67,6 +74,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 300,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -74,6 +82,7 @@ return {
 				},
 				{
 					price = 1000,
+					fragment = 300,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -87,6 +96,7 @@ return {
 			status = {
 				{
 					price = 200,
+					fragment = 400,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -94,6 +104,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 400,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -101,6 +112,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 400,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -114,6 +126,7 @@ return {
 			status = {
 				{
 					price = 200,
+					fragment = 500,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -121,6 +134,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 500,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -128,6 +142,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 500,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -141,6 +156,7 @@ return {
 			status = {
 				{
 					price = 200,
+					fragment = 600,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -148,6 +164,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 600,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -155,6 +172,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 600,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -168,6 +186,7 @@ return {
 			status = {
 				{
 					price = 200,
+					fragment = 700,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -175,6 +194,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 700,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -182,6 +202,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 700,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -195,6 +216,7 @@ return {
 			status = {
 				{
 					price = 200,
+					fragment = 800,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -202,6 +224,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 800,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -209,6 +232,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 800,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -222,6 +246,7 @@ return {
 			status = {
 				{
 					price = 200,
+					fragment = 900,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -229,6 +254,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 900,
 					effects = {},
 					attack = 10,
 					life = 200, 
@@ -236,6 +262,7 @@ return {
 				},
 				{
 					price = 200,
+					fragment = 900,
 					effects = {},
 					attack = 10,
 					life = 200, 

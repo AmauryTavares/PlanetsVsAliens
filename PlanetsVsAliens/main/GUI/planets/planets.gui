@@ -49,7 +49,7 @@ nodes {
   pivot: PIVOT_NW
   adjust_mode: ADJUST_MODE_FIT
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
@@ -59,7 +59,7 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 1.0
+  alpha: 0.78
   template_node_child: false
   size_mode: SIZE_MODE_AUTO
 }
@@ -159,7 +159,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "box_details"
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
@@ -592,7 +592,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "box_info"
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
@@ -609,7 +609,7 @@ nodes {
 nodes {
   position {
     x: 100.935
-    y: -50.111
+    y: -52.628
     z: 0.0
     w: 1.0
   }
@@ -641,7 +641,7 @@ nodes {
   blend_mode: BLEND_MODE_ALPHA
   text: "Evoluir!"
   font: "system_font"
-  id: "upgrade"
+  id: "lb_upgrade"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -954,7 +954,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "background"
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
@@ -1072,7 +1072,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "background"
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
@@ -1308,7 +1308,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "background"
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
@@ -1544,7 +1544,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "background"
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
@@ -1780,7 +1780,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "background"
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
@@ -2016,7 +2016,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "background"
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
@@ -2252,7 +2252,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "background"
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
@@ -2488,7 +2488,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "background"
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
@@ -2724,7 +2724,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "background"
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
@@ -2960,7 +2960,7 @@ nodes {
   adjust_mode: ADJUST_MODE_FIT
   parent: "background"
   layer: ""
-  inherit_alpha: true
+  inherit_alpha: false
   slice9 {
     x: 0.0
     y: 0.0
