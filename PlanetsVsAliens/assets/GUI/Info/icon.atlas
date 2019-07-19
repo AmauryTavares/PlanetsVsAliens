@@ -1,0 +1,66 @@
+animations {
+  id: "star"
+  images {
+    image: "/assets/GUI/Info/star.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "amethyst"
+  images {
+    image: "/assets/GUI/Info/amethyst1.png"
+  }
+  images {
+    image: "/assets/GUI/Info/amethyst2.png"
+  }
+  playback: PLAYBACK_LOOP_PINGPONG
+  fps: 2
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "hearth"
+  images {
+    image: "/assets/GUI/Info/hearth.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "alien"
+  images {
+    image: "/assets/GUI/Info/alien.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "boss"
+  images {
+    image: "/assets/GUI/Info/boss.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "planet"
+  images {
+    image: "/assets/GUI/Info/planet.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

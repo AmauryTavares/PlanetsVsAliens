@@ -153,9 +153,10 @@ handleClick = function (self, action)
 		for i = 1, self.numSlots do
 			local node = gui.get_node('selected' .. i)
 			if gui.pick_node(node, action.x, action.y) then
-				print('aa')
 				local id = self.planetsSelected[i]
-				removePlanetSelected(self, id, i)
+				if not (id == 0) then
+					removePlanetSelected(self, id, i)
+				end
 			end
 		end	
 	elseif action.released then

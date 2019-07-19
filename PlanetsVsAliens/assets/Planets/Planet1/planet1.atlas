@@ -1,10 +1,31 @@
 animations {
   id: "idle"
   images {
-    image: "/assets/Planets/planet1/planet_img.png"
+    image: "/assets/Planets/planet1/mercury1.png"
   }
-  playback: PLAYBACK_NONE
-  fps: 60
+  images {
+    image: "/assets/Planets/planet1/mercury2.png"
+  }
+  images {
+    image: "/assets/Planets/planet1/mercury3.png"
+  }
+  images {
+    image: "/assets/Planets/planet1/mercury3.png"
+  }
+  images {
+    image: "/assets/Planets/planet1/mercury3.png"
+  }
+  images {
+    image: "/assets/Planets/planet1/mercury3.png"
+  }
+  images {
+    image: "/assets/Planets/planet1/mercury3.png"
+  }
+  images {
+    image: "/assets/Planets/planet1/mercury3.png"
+  }
+  playback: PLAYBACK_LOOP_PINGPONG
+  fps: 6
   flip_horizontal: 0
   flip_vertical: 0
 }

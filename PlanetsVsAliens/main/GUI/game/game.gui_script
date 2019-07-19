@@ -81,12 +81,19 @@ loadPlanetSidebar = function (self)
 	for i = 1, self.numPlanetSidebar - 1 do
 		local levels = playerdata.getAll(1).planets
 		local planets = oyster.get('planetsdata').planets
-		local imgPlanetSidebar = gui.get_node('img_planet' .. i)
-		local levelPlanetSidebar = gui.get_node('lb_price_planet' .. i)
+		local img_planet = gui.get_node('img_planet' .. i)
+		local lb_price_planet = gui.get_node('lb_price_planet' .. i)
+		local frame = gui.get_node('planet' .. i)
 		local idPlanet = self.planetsSelected[i]
 		local idLevel = levels[idPlanet]
+
+		gui.set_texture(img_planet, 'planet_sidebar')
+		gui.play_flipbook(img_planet, 'planet' .. idPlanet)
+
+		gui.set_texture(frame, 'frame')
+		gui.play_flipbook(frame, 'frame' .. idLevel)
 		
-		gui.set_text(levelPlanetSidebar, planets[idPlanet].status[idLevel].fragment)
+		gui.set_text(lb_price_planet, planets[idPlanet].status[idLevel].fragment)
 	end
 end
 -- envia posicao dos portais

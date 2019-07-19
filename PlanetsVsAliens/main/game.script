@@ -14,6 +14,7 @@ local alertRoute = nil
 local alertAllEnemyRouteAttack = nil
 local alertAllEnemyRouteStop = nil
 local loadData = nil
+local spawnPlanet = nil
 
 function init(self)
 	self.board = {}
@@ -26,7 +27,7 @@ function init(self)
 	self.maxSpawnTime = 3 -- segundos
 
 	self.currentStars = 0
-	self.currentFragments = 300
+	self.currentFragments = 30000
 	self.currentLife = 100
 	
 	self.countEnemyRoutes = { 0, 0, 0, 0, 0 }
@@ -67,7 +68,7 @@ function on_message(self, message_id, message, sender)
 			end
 		elseif not self.board[message.boardPosX .. message.boardPosY] and self.currentFragments >= planets[idPlanet].status[idLevel].fragment then
 			-- invoca planeta
-			self.board[message.boardPosX .. message.boardPosY] = factory.create('game#factory_planet1', pos, nil, nil, 0.6)
+			spawnPlanet(self, idPlanet, message.boardPosX, message.boardPosY, pos)
 			self.currentFragments = self.currentFragments - planets[idPlanet].status[idLevel].fragment
 			msg.post('game:/go#game', 'update_fragments', { fragments = self.currentFragments })
 		end	
@@ -83,6 +84,28 @@ function on_message(self, message_id, message, sender)
 		
 	elseif message_id == hash('start') then
 		self.start = true
+	end
+end
+
+spawnPlanet = function (self, idPlanet, boardPosX, boardPosY, pos)
+	if idPlanet == 1 then
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.7)
+	elseif idPlanet == 2 then
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.4)
+	elseif idPlanet == 3 then
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.4)
+	elseif idPlanet == 4 then
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.6)
+	elseif idPlanet == 5 then
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.16)
+	elseif idPlanet == 6 then
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.2)
+	elseif idPlanet == 7 then
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.3)
+	elseif idPlanet == 8 then
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.3)
+	elseif idPlanet == 9 then
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.8)
 	end
 end
 
@@ -128,7 +151,7 @@ createPortals = function (self)
 	for i = 1, 5 do
 		local portal = self.portals[i]
 		local posWorld = rendercam.screen_to_world_2d(portal.x, portal.y)
-		factory.create('main:/game#factory_portals', posWorld, nil, nil, 0.7)
+		factory.create('main:/game#factory_portals', posWorld, nil, nil, 0.2)
 	end
 end
 

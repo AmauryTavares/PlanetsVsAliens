@@ -3,6 +3,14 @@ fonts {
   name: "system_font"
   font: "/builtins/fonts/system_font.font"
 }
+textures {
+  name: "background"
+  texture: "/assets/GUI/Button/background.atlas"
+}
+textures {
+  name: "icon"
+  texture: "/assets/GUI/Info/icon.atlas"
+}
 background_color {
   x: 0.0
   y: 0.0
@@ -66,7 +74,7 @@ nodes {
 nodes {
   position {
     x: 99.704
-    y: -55.297
+    y: -40.758
     z: 0.0
     w: 1.0
   }
@@ -77,14 +85,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.265
-    y: 0.158
+    x: 0.121
+    y: 0.076
     z: 1.0
     w: 1.0
   }
   size {
-    x: 200.0
-    y: 100.0
+    x: 768.0
+    y: 400.0
     z: 0.0
     w: 1.0
   }
@@ -96,8 +104,8 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
-  id: "bt_start"
+  texture: "background/background2"
+  id: "box_start"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -121,7 +129,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -1.157
+    y: -95.004
     z: 0.0
     w: 1.0
   }
@@ -132,8 +140,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 2.499
-    y: 3.025
+    x: 4.659
+    y: 5.528
     z: 1.0
     w: 1.0
   }
@@ -144,9 +152,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.101960786
-    y: 0.2
-    z: 0.6
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_TEXT
@@ -171,7 +179,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  parent: "bt_start"
+  parent: "box_start"
   layer: ""
   inherit_alpha: false
   alpha: 1.0
@@ -180,6 +188,61 @@ nodes {
   template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: -87.832
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 3.338
+    y: 2.308
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: ""
+  id: "bt_start"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "box_start"
+  layer: ""
+  inherit_alpha: false
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 0.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
@@ -195,26 +258,26 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.225
-    y: 0.12
+    x: 0.053
+    y: 0.078
     z: 1.0
     w: 1.0
   }
   size {
-    x: 200.0
-    y: 100.0
+    x: 768.0
+    y: 170.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.2
-    y: 0.2
-    z: 0.2
+    x: 1.0
+    y: 1.0
+    z: 1.0
     w: 1.0
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "background/background1"
   id: "box_stars"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -232,14 +295,14 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.81
+  alpha: 1.0
   template_node_child: false
   size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
-    x: 114.678
-    y: -51.817
+    x: 469.097
+    y: -85.814
     z: 0.0
     w: 1.0
   }
@@ -250,14 +313,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.914
-    y: 2.882
+    x: 5.739
+    y: 4.329
     z: 1.0
     w: 1.0
   }
   size {
     x: 70.0
-    y: 30.0
+    y: 15.0
     z: 0.0
     w: 1.0
   }
@@ -301,8 +364,63 @@ nodes {
 }
 nodes {
   position {
+    x: 146.051
+    y: -82.062
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.365
+    y: 0.185
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 512.0
+    y: 512.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "icon/star"
+  id: "img_stars"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "box_stars"
+  layer: ""
+  inherit_alpha: false
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
     x: 99.907
-    y: -41.971
+    y: -63.368
     z: 0.0
     w: 1.0
   }
@@ -376,14 +494,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.238
-    y: 0.126
+    x: 0.068
+    y: 0.077
     z: 1.0
     w: 1.0
   }
   size {
-    x: 200.0
-    y: 100.0
+    x: 768.0
+    y: 170.0
     z: 0.0
     w: 1.0
   }
@@ -395,7 +513,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: ""
+  texture: "background/background3"
   id: "bt_planets"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -419,8 +537,8 @@ nodes {
 }
 nodes {
   position {
-    x: 99.367
-    y: -53.592
+    x: 453.013
+    y: -88.031
     z: 0.0
     w: 1.0
   }
@@ -431,8 +549,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 1.965
-    y: 4.051
+    x: 5.71
+    y: 5.349
     z: 1.0
     w: 1.0
   }
@@ -443,9 +561,9 @@ nodes {
     w: 1.0
   }
   color {
-    x: 0.8
-    y: 0.4
-    z: 0.2
+    x: 0.0
+    y: 0.0
+    z: 0.0
     w: 1.0
   }
   type: TYPE_TEXT
@@ -479,6 +597,61 @@ nodes {
   template_node_child: false
   text_leading: 1.0
   text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 156.333
+    y: -81.94
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.39
+    y: 0.283
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 512.0
+    y: 512.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "icon/planet"
+  id: "img_planets"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "bt_planets"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

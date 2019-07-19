@@ -1,0 +1,93 @@
+animations {
+  id: "planet1"
+  images {
+    image: "/assets/Sidebar/planet1_sidebar.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "planet2"
+  images {
+    image: "/assets/Sidebar/planet2_sidebar.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "planet3"
+  images {
+    image: "/assets/Sidebar/planet3_sidebar.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "planet4"
+  images {
+    image: "/assets/Sidebar/planet4_sidebar.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "planet5"
+  images {
+    image: "/assets/Sidebar/planet5_sidebar.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "planet6"
+  images {
+    image: "/assets/Sidebar/planet6_sidebar.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "planet7"
+  images {
+    image: "/assets/Sidebar/planet7_sidebar.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "planet8"
+  images {
+    image: "/assets/Sidebar/planet8_sidebar.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "planet9"
+  images {
+    image: "/assets/Sidebar/planet9_sidebar.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

@@ -1,0 +1,53 @@
+animations {
+  id: "frame1"
+  images {
+    image: "/assets/GUI/Frame/frame1.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "frame2"
+  images {
+    image: "/assets/GUI/Frame/frame2.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "frame3"
+  images {
+    image: "/assets/GUI/Frame/frame3.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "frame4"
+  images {
+    image: "/assets/GUI/Frame/frame4.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "frame5"
+  images {
+    image: "/assets/GUI/Frame/frame5.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

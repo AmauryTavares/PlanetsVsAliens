@@ -35,6 +35,8 @@ function init(self)
 	self.bt_upgrade = gui.get_node('bt_upgrade')
 	self.lb_upgrade = gui.get_node('lb_upgrade')
 	self.bt_back = gui.get_node('bt_back')
+	self.img_stars_info = gui.get_node('img_stars_info')
+	self.img_planet = gui.get_node('img_planet')
 	
 	loadStars(self)
 	
@@ -93,6 +95,9 @@ loadInfoPlanet = function (self, idPlanet)
 	local statusPlanet = self.planets[idPlanet].status[levelPlanet]
 	local statusUpgradePlanet = self.planets[idPlanet].status[levelPlanet + 1]
 	
+	gui.set_texture(self.img_planet, 'planet' .. idPlanet)
+	gui.play_flipbook(self.img_planet, 'idle')
+	
 	gui.set_text(self.lb_name_planet, namePlanet)
 	gui.set_text(self.lb_level_planet, 'Level ' .. levelPlanet)
 
@@ -109,9 +114,10 @@ loadInfoPlanet = function (self, idPlanet)
 		gui.set_enabled(self.lb_price_planet, true)
 		gui.set_text(self.lb_price_planet, statusUpgradePlanet.price)
 
+		gui.set_enabled(self.img_stars_info, true)
 		gui.set_color(self.bt_upgrade, vmath.vector3(1, 1, 1))
 		gui.set_text(self.lb_upgrade, 'Evoluir!')
-		gui.set_color(self.lb_upgrade, vmath.vector3(0, 128, 0))
+		gui.set_color(self.lb_upgrade, vmath.vector3(0, 0, 0))
 		self.enableUpgrade = true
 	else
 		gui.set_enabled(self.lb_add_attack_planet, false)
@@ -119,9 +125,10 @@ loadInfoPlanet = function (self, idPlanet)
 		gui.set_enabled(self.lb_add_cooldown_attack_planet, false)
 		gui.set_enabled(self.lb_price_planet, false)
 
-		gui.set_color(self.bt_upgrade, vmath.vector3(0, 0, 128))
+		gui.set_enabled(self.img_stars_info, false)
+		gui.set_color(self.bt_upgrade, vmath.vector3(102, 102, 51))
 		gui.set_text(self.lb_upgrade, 'Maximo')
-		gui.set_color(self.lb_upgrade, vmath.vector3(1, 1, 1))
+		gui.set_color(self.lb_upgrade, vmath.vector3(0, 0, 0))
 		self.enableUpgrade = false
 	end
 end
@@ -133,7 +140,7 @@ loadDetailPlanet = function (self, idPlanet)
 
 	gui.set_inherit_alpha(planetPreviousSelect, false)
 	gui.set_inherit_alpha(planetCurrentSelect, true)
-
+	
 	loadInfoPlanet(self, idPlanet)
 
 	self.planetInfoSelect = idPlanet
@@ -142,12 +149,10 @@ end
 -- carrega os box dos planetas
 loadPlanets = function (self)
 	for i = 1, self.numPlanets do
-		local lb_name_planet = gui.get_node('lb_name_planet' .. i)
-		local lb_level_planet = gui.get_node('lb_level_planet' .. i)
+		local frame = gui.get_node('planet' .. i)
 		local levelPlanet = self.levels[i]
-		local namePlanet = self.planets[i].name
-			
-		gui.set_text(lb_name_planet, namePlanet)
-		gui.set_text(lb_level_planet, 'Level ' .. levelPlanet)
+		
+		gui.set_texture(frame, 'frame')
+		gui.play_flipbook(frame, 'frame' .. levelPlanet)
 	end
 end

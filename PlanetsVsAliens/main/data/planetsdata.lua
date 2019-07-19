@@ -28,6 +28,22 @@ return {
 					life = 200, 
 					cooldownAttack = 4
 				},
+				{
+					price = 200,
+					fragment = 100,
+					effects = {},
+					attack = 10,
+					life = 200, 
+					cooldownAttack = 4
+				},
+				{
+					price = 200,
+					fragment = 100,
+					effects = {},
+					attack = 10,
+					life = 200, 
+					cooldownAttack = 4
+				},
 			}
 		},
 		{
@@ -44,6 +60,14 @@ return {
 				},
 				{
 					price = 700,
+					fragment = 200,
+					effects = {},
+					attack = 10,
+					life = 200, 
+					cooldownAttack = 4
+				},
+				{
+					price = 200,
 					fragment = 200,
 					effects = {},
 					attack = 10,

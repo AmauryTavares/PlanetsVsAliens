@@ -1,0 +1,26 @@
+go.property('speed', 100) -- pixels
+go.property('time', 3) -- segundos
+
+local updatePos = nil
+
+function init(self)
+
+end
+
+function update(self, dt)
+	updatePos(self, dt)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash('collision_response') then
+		if message.other_group == hash('enemy') then
+			go.delete()
+		end
+	end	
+end
+
+updatePos = function (self, dt)
+	local pos = go.get_position()
+	pos.x = pos.x + self.speed * dt
+	go.set_position(pos)
+end

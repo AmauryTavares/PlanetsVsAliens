@@ -1,0 +1,33 @@
+animations {
+  id: "background1"
+  images {
+    image: "/assets/GUI/Button/background1.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 1
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "background2"
+  images {
+    image: "/assets/GUI/Button/background2.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "background3"
+  images {
+    image: "/assets/GUI/Button/background3.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

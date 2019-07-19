@@ -1,10 +1,13 @@
 animations {
   id: "idle"
   images {
-    image: "/assets/Portal/portal_img.png"
+    image: "/assets/Portal/hole1.png"
   }
-  playback: PLAYBACK_NONE
-  fps: 60
+  images {
+    image: "/assets/Portal/hole2.png"
+  }
+  playback: PLAYBACK_LOOP_PINGPONG
+  fps: 2
   flip_horizontal: 0
   flip_vertical: 0
 }
