@@ -26,6 +26,23 @@ function init(self)
 	self.box_select = gui.get_node('box_select')
 	self.bt_start = gui.get_node('bt_start')
 
+	-- animacao de flutuar -------------------------------
+	local pos_img_planet_selected1 = gui.get_position(gui.get_node('img_planet_selected1'))
+	local pos_img_planet_selected2 = gui.get_position(gui.get_node('img_planet_selected2'))
+	local pos_img_planet_selected3 = gui.get_position(gui.get_node('img_planet_selected3'))
+	local pos_img_planet_selected4 = gui.get_position(gui.get_node('img_planet_selected4'))
+
+	pos_img_planet_selected1.y = pos_img_planet_selected1.y + 5
+	pos_img_planet_selected2.y = pos_img_planet_selected2.y + 5
+	pos_img_planet_selected3.y = pos_img_planet_selected3.y + 5
+	pos_img_planet_selected4.y = pos_img_planet_selected4.y + 5
+	
+	gui.animate(gui.get_node('img_planet_selected1'), 'position', pos_img_planet_selected1, gui.EASING_INOUTSINE, 3, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
+	gui.animate(gui.get_node('img_planet_selected2'), 'position', pos_img_planet_selected1, gui.EASING_INOUTSINE, 3, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
+	gui.animate(gui.get_node('img_planet_selected3'), 'position', pos_img_planet_selected1, gui.EASING_INOUTSINE, 3, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
+	gui.animate(gui.get_node('img_planet_selected4'), 'position', pos_img_planet_selected1, gui.EASING_INOUTSINE, 3, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
+	
+	-----------------------------------------------------
 	self.planetsSelected = {0, 0, 0, 0}
 	
 	self.width_box_select = 3523 -- pixels
@@ -73,6 +90,10 @@ addPlanetSelected = function (self, idSelect, idSlot)
 	gui.set_enabled(imgPlanetSelected, true)
 	gui.set_enabled(levelPlanetSelected, true)
 
+
+	gui.set_texture(imgPlanetSelected, 'planet' .. idSelect)
+	gui.play_flipbook(imgPlanetSelected, 'idle')
+
 	if checkSlotEmpty(self) == -1 then
 		gui.set_enabled(self.bt_start, true)
 	end
@@ -110,9 +131,9 @@ loadPlanets = function (self)
 	
 	for i, planet in ipairs(oyster.get('planetsdata').planets) do
 		gui.set_text(gui.get_node('lb_name_select' .. i), planet.name)
-		gui.set_text(gui.get_node('lb_level_select' .. i), 'Level ' .. levels[i])
 		gui.set_text(gui.get_node('lb_price_select' .. i), planet.status[levels[i]].fragment)
-		-- gui.set_texture(gui.get_node('img_planet_select' .. i), texture)
+		gui.play_flipbook(gui.get_node('img_planet_select' .. i), 'planet' .. i)
+		gui.play_flipbook(gui.get_node('select' .. i), 'frame' .. levels[i])
 	end
 end
 

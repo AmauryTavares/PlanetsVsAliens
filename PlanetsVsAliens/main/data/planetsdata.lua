@@ -40,7 +40,7 @@ return {
 					price = 200,
 					fragment = 100,
 					effects = {},
-					attack = 10,
+					attack = 30,
 					life = 200, 
 					cooldownAttack = 4
 				},

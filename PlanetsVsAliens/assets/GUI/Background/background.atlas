@@ -8,6 +8,16 @@ animations {
   flip_horizontal: 0
   flip_vertical: 0
 }
+animations {
+  id: "background_initial"
+  images {
+    image: "/assets/GUI/Background/background_initial.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 60
+  flip_horizontal: 0
+  flip_vertical: 0
+}
 margin: 0
 extrude_borders: 2
 inner_padding: 0

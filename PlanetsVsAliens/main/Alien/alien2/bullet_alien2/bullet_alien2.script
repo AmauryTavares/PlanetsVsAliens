@@ -1,0 +1,40 @@
+go.property('speed', 0) -- pixels
+go.property('time', 0.5) -- segundos
+go.property('damage', 5)
+
+local updatePos = nil
+local reduceTime = nil
+
+function init(self)
+
+end
+
+function update(self, dt)
+	updatePos(self, dt)
+	reduceTime(self, dt)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash('collision_response') then
+		if message.other_group == hash('planet') then
+			msg.post(message.other_id, 'subtract_life', { subtractLife = self.damage })
+			go.delete()
+		end
+	end	
+end
+
+reduceTime = function(self, dt)
+	if self.time > 0 then
+		self.time = self.time - dt 
+
+		if self.time <= 0 then
+			go.delete()
+		end
+	end 
+end
+
+updatePos = function (self, dt)
+	local pos = go.get_position()
+	pos.x = pos.x - self.speed * dt
+	go.set_position(pos)
+end

@@ -7,7 +7,6 @@ local playerdata = require('oyster.playerdata')
 
 local playerdataFilePath = sys.get_save_file('PlanetsVsAliens', 'playerdata')
 
-local spawnAlien = nil
 local reduceTime = nil
 local createPortals = nil
 local alertRoute = nil
@@ -15,11 +14,13 @@ local alertAllEnemyRouteAttack = nil
 local alertAllEnemyRouteStop = nil
 local loadData = nil
 local spawnPlanet = nil
+local spawnAlien = nil
 
 function init(self)
 	self.board = {}
 
 	self.numRoutes = 5
+	self.numAliens = 3
 	self.currentTime = 120 -- segundos
 	self.maxTime = 120 -- segundos
 	self.phase = 1
@@ -33,8 +34,12 @@ function init(self)
 	self.countEnemyRoutes = { 0, 0, 0, 0, 0 }
 	self.routes = {}
 	self.portals = {}
-
+	
 	loadData(self)
+
+	self.levels = playerdata.getAll(1).planets
+	self.planets = oyster.get('planetsdata').planets
+	self.aliens = oyster.get('aliensdata').aliens
 end
 
 function final(self) 
@@ -52,13 +57,11 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash('spawn_planet') then
-		local levels = playerdata.getAll(1).planets
-		local planets = oyster.get('planetsdata').planets
 		local planetsSelected = oyster.get('planets_selected')
 		
 		local pos = rendercam.screen_to_world_2d(message.posWorld.x, message.posWorld.y)
 		local idPlanet = planetsSelected[message.planetIndex]
-		local idLevel = levels[idPlanet]
+		local idLevel = self.levels[idPlanet]
 		
 		-- deleta planeta
 		if message.planetIndex == 5 then
@@ -66,46 +69,79 @@ function on_message(self, message_id, message, sender)
 				msg.post(self.board[message.boardPosX .. message.boardPosY], 'destroy')
 				self.board[message.boardPosX .. message.boardPosY] = nil
 			end
-		elseif not self.board[message.boardPosX .. message.boardPosY] and self.currentFragments >= planets[idPlanet].status[idLevel].fragment then
+		elseif not self.board[message.boardPosX .. message.boardPosY] and self.currentFragments >= self.planets[idPlanet].status[idLevel].fragment then
 			-- invoca planeta
 			spawnPlanet(self, idPlanet, message.boardPosX, message.boardPosY, pos)
-			self.currentFragments = self.currentFragments - planets[idPlanet].status[idLevel].fragment
+			self.currentFragments = self.currentFragments - self.planets[idPlanet].status[idLevel].fragment
 			msg.post('game:/go#game', 'update_fragments', { fragments = self.currentFragments })
 		end	
-
+	elseif message_id == hash('remove_planet_board') then
+		msg.post(self.board[message.boardPosX .. message.boardPosY], 'destroy')
+		self.board[message.boardPosX .. message.boardPosY] = nil
 	elseif message_id == hash('enemy_kill') then
 		self.countEnemyRoutes[message.route] = self.countEnemyRoutes[message.route] - 1
 	elseif message_id == hash('update_routes') then
 		self.routes = message.routes
-
 	elseif message_id == hash('update_portals') then
 		self.portals = message.portals
 		createPortals(self)
-		
-	elseif message_id == hash('start') then
-		self.start = true
+	elseif message_id == hash('subtract_life') then
+		self.currentLife = self.currentLife - message.subtractLife
+		msg.post('game:/go#game', 'update_life', { life = self.currentLife })
+	elseif message_id == hash('add_stars') then
+		self.currentStars = self.currentStars + message.addStars
+		msg.post('game:/go#game', 'update_stars', { stars = self.currentStars })
+	elseif message_id == hash('add_fragments') then
+		self.currentFragments = self.currentFragments + message.addFragments
+		msg.post('game:/go#game', 'update_fragments', { fragments = self.currentFragments })		
 	end
 end
 
 spawnPlanet = function (self, idPlanet, boardPosX, boardPosY, pos)
+	local levelPlanet = self.levels[idPlanet]
+	local status = self.planets[idPlanet].status[levelPlanet]
+	status.effects = nil
+	status.boardPosX = boardPosX
+	status.boardPosY = boardPosY
+	
 	if idPlanet == 1 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.7)
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.7)
 	elseif idPlanet == 2 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.4)
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.4)
 	elseif idPlanet == 3 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.4)
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.4)
 	elseif idPlanet == 4 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.6)
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.6)
 	elseif idPlanet == 5 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.16)
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.16)
 	elseif idPlanet == 6 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.2)
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.2)
 	elseif idPlanet == 7 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.3)
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.3)
 	elseif idPlanet == 8 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.3)
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.3)
 	elseif idPlanet == 9 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, nil, 0.8)
+		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.8)
+	end
+end
+
+spawnAlien = function (self)
+	local idAlien = math.random(1, self.numAliens)
+	local randomRoute = math.random(1, self.numRoutes)
+	local route = self.routes[randomRoute]
+	local posWorld = rendercam.screen_to_world_2d(route.x, route.y)
+	self.countEnemyRoutes[randomRoute] = self.countEnemyRoutes[randomRoute] + 1
+
+	local status = self.aliens[idAlien]
+	status.route = randomRoute
+	status.name = nil
+	
+	if idAlien == 1 then
+		factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.2)
+	elseif idAlien == 2 then
+		factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.2)
+	elseif idAlien == 3 then
+		factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.2)
 	end
 end
 
@@ -155,14 +191,6 @@ createPortals = function (self)
 	end
 end
 
-spawn_alien = function (self)
-	local randomRoute = math.random(1, self.numRoutes)
-	local route = self.routes[randomRoute]
-	local posWorld = rendercam.screen_to_world_2d(route.x, route.y)
-	self.countEnemyRoutes[randomRoute] = self.countEnemyRoutes[randomRoute] + 1
-	factory.create('main:/game#factory_alien1', posWorld, nil, { route = randomRoute }, 0.6)
-end
-
 reduce_time = function (self, dt) 
 	-- decrementa tempo da fase
 	if self.currentTime > 0 then
@@ -179,7 +207,7 @@ reduce_time = function (self, dt)
 		self.currentSpawnTime = self.currentSpawnTime - dt
 
 		if self.currentSpawnTime <= 0 then
-			spawn_alien(self)
+			spawnAlien(self)
 			self.currentSpawnTime = self.maxSpawnTime
 		end
 	end 

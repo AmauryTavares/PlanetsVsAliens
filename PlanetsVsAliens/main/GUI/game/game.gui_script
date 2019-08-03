@@ -58,7 +58,12 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash('update_fragments') then
-		print('ola')
+		gui.set_text(self.lb_fragments, message.fragments)
+	elseif message_id == hash('update_life') then
+		gui.set_text(self.lb_life, message.life)
+	elseif message_id == hash('update_stars') then
+		gui.set_text(self.lb_stars, message.stars)
+	elseif message_id == hash('update_fragments') then
 		gui.set_text(self.lb_fragments, message.fragments)
 	end
 end

@@ -1,5 +1,6 @@
 go.property('speed', 100) -- pixels
 go.property('time', 3) -- segundos
+go.property('damage', 5)
 
 local updatePos = nil
 
@@ -14,6 +15,7 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash('collision_response') then
 		if message.other_group == hash('enemy') then
+			msg.post(message.other_id, 'subtract_life', { subtractLife = self.damage })
 			go.delete()
 		end
 	end	

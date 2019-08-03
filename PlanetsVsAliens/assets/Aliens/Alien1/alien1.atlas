@@ -1,11 +1,20 @@
 animations {
   id: "idle"
   images {
-    image: "/assets/Aliens/alien1/alien_img.png"
+    image: "/assets/Aliens/alien1/alien1_1.png"
   }
-  playback: PLAYBACK_NONE
-  fps: 60
-  flip_horizontal: 0
+  images {
+    image: "/assets/Aliens/alien1/alien1_2.png"
+  }
+  images {
+    image: "/assets/Aliens/alien1/alien1_3.png"
+  }
+  images {
+    image: "/assets/Aliens/alien1/alien1_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 1
   flip_vertical: 0
 }
 margin: 0

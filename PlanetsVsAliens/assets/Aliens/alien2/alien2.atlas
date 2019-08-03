@@ -1,0 +1,22 @@
+animations {
+  id: "idle"
+  images {
+    image: "/assets/Aliens/alien2/alien2_1.png"
+  }
+  images {
+    image: "/assets/Aliens/alien2/alien2_2.png"
+  }
+  images {
+    image: "/assets/Aliens/alien2/alien2_3.png"
+  }
+  images {
+    image: "/assets/Aliens/alien2/alien2_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 1
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

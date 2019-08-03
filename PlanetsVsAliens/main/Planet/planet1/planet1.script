@@ -1,4 +1,9 @@
 go.property('cooldownAttack', 3) -- segundos
+go.property('attack', 10)
+go.property('life', 100)
+
+go.property('boardPosX', 0)
+go.property('boardPosY', 0)
 
 local attack = nil
 local reduceTime = nil
@@ -6,6 +11,10 @@ local reduceTime = nil
 function init(self)
 	self.start_attack = false
 	self.currentCooldownAttack = self.cooldownAttack
+
+	local pos = go.get_position()
+
+	go.animate(go.get_id(), 'position.y', go.PLAYBACK_LOOP_PINGPONG, pos.y - 10, go.EASING_INOUTSINE, 3)
 end
 
 function final(self)
@@ -13,7 +22,7 @@ function final(self)
 	-- Remove this function if not needed
 end
 
-function update(self, dt)
+function update(self, dt)	
 	reduceTime(self, dt)
 end
 
@@ -23,6 +32,12 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash('stop_attack') then
 		self.start_attack = stop
 		self.currentCooldownAttack = self.cooldownAttack
+	elseif message_id == hash('subtract_life') then
+		self.life = self.life - message.subtractLife
+
+		if self.life <= 0 then
+			msg.post('main:/main#game', 'remove_planet_board', { boardPosX = self.boardPosX, boardPosY = self.boardPosY })
+		end
 	elseif message_id == hash('destroy') then
 		go.delete()
 	end
@@ -41,5 +56,5 @@ end
 
 attack = function (self)
 	local pos = go.get_position()
-	factory.create('#factory_attack', pos, nil, { speed = 180, time = 3 }, 0.3)
+	factory.create('#factory_attack', pos, nil, { speed = 180, time = 3, damage = self.attack }, 0.3)
 end
