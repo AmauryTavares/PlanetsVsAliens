@@ -15,26 +15,11 @@ local alertAllEnemyRouteStop = nil
 local loadData = nil
 local spawnPlanet = nil
 local spawnAlien = nil
+local resetGame = nil
+local enablePortal = nil
 
 function init(self)
-	self.board = {}
-
-	self.numRoutes = 5
-	self.numAliens = 3
-	self.currentTime = 120 -- segundos
-	self.maxTime = 120 -- segundos
-	self.phase = 1
-	self.currentSpawnTime = 3 -- segundos
-	self.maxSpawnTime = 3 -- segundos
-
-	self.currentStars = 0
-	self.currentFragments = 30000
-	self.currentLife = 100
-	
-	self.countEnemyRoutes = { 0, 0, 0, 0, 0 }
-	self.routes = {}
-	self.portals = {}
-	
+	resetGame(self)
 	loadData(self)
 
 	self.levels = playerdata.getAll(1).planets
@@ -52,48 +37,120 @@ function update(self, dt)
 	if gamestate.is('PLAY') then
 		reduce_time(self, dt)
 		alertRoute(self)
+
+		if self.currentLife <= 0 then
+			monarch.hide('game')
+			monarch.show('final', nil, { phase = self.phase, score = self.currentStars })
+			resetGame(self)
+			enablePortal(self, false)
+			gamestate.set('PAUSE')
+		end
 	end
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash('spawn_planet') then
-		local planetsSelected = oyster.get('planets_selected')
-		
-		local pos = rendercam.screen_to_world_2d(message.posWorld.x, message.posWorld.y)
-		local idPlanet = planetsSelected[message.planetIndex]
-		local idLevel = self.levels[idPlanet]
-		
-		-- deleta planeta
-		if message.planetIndex == 5 then
-			if self.board[message.boardPosX .. message.boardPosY] then
-				msg.post(self.board[message.boardPosX .. message.boardPosY], 'destroy')
-				self.board[message.boardPosX .. message.boardPosY] = nil
+	if gamestate.is('PLAY') then
+		if message_id == hash('spawn_planet') then
+			local planetsSelected = oyster.get('planets_selected')
+
+			local pos = rendercam.screen_to_world_2d(message.posWorld.x, message.posWorld.y)
+			local idPlanet = planetsSelected[message.planetIndex]
+			local idLevel = self.levels[idPlanet]
+
+			-- deleta planeta
+			if message.planetIndex == 5 then
+				if self.board[message.boardPosX .. message.boardPosY] then
+					msg.post(self.board[message.boardPosX .. message.boardPosY], 'destroy')
+					self.board[message.boardPosX .. message.boardPosY] = nil
+				end
+			elseif not self.board[message.boardPosX .. message.boardPosY] and self.currentFragments >= self.planets[idPlanet].status[idLevel].fragment then
+				-- invoca planeta
+				spawnPlanet(self, idPlanet, message.boardPosX, message.boardPosY, pos)
+				self.currentFragments = self.currentFragments - self.planets[idPlanet].status[idLevel].fragment
+				msg.post('game:/go#game', 'update_fragments', { fragments = self.currentFragments })
+			end	
+			
+		elseif message_id == hash('remove_planet_board') then
+			msg.post(self.board[message.boardPosX .. message.boardPosY], 'destroy')
+			self.board[message.boardPosX .. message.boardPosY] = nil
+			
+		elseif message_id == hash('enemy_kill') then
+			self.countEnemyRoutes[message.route] = self.countEnemyRoutes[message.route] - 1
+			
+		elseif message_id == hash('update_routes') then
+			self.routes = message.routes
+			
+		elseif message_id == hash('update_portals') then
+			self.posPortals = message.portals
+			if self.portals[1] == nil then
+				createPortals(self)
+			else
+				enablePortal(self, true)
 			end
-		elseif not self.board[message.boardPosX .. message.boardPosY] and self.currentFragments >= self.planets[idPlanet].status[idLevel].fragment then
-			-- invoca planeta
-			spawnPlanet(self, idPlanet, message.boardPosX, message.boardPosY, pos)
-			self.currentFragments = self.currentFragments - self.planets[idPlanet].status[idLevel].fragment
-			msg.post('game:/go#game', 'update_fragments', { fragments = self.currentFragments })
-		end	
-	elseif message_id == hash('remove_planet_board') then
-		msg.post(self.board[message.boardPosX .. message.boardPosY], 'destroy')
-		self.board[message.boardPosX .. message.boardPosY] = nil
-	elseif message_id == hash('enemy_kill') then
-		self.countEnemyRoutes[message.route] = self.countEnemyRoutes[message.route] - 1
-	elseif message_id == hash('update_routes') then
-		self.routes = message.routes
-	elseif message_id == hash('update_portals') then
-		self.portals = message.portals
-		createPortals(self)
-	elseif message_id == hash('subtract_life') then
-		self.currentLife = self.currentLife - message.subtractLife
-		msg.post('game:/go#game', 'update_life', { life = self.currentLife })
-	elseif message_id == hash('add_stars') then
-		self.currentStars = self.currentStars + message.addStars
-		msg.post('game:/go#game', 'update_stars', { stars = self.currentStars })
-	elseif message_id == hash('add_fragments') then
-		self.currentFragments = self.currentFragments + message.addFragments
-		msg.post('game:/go#game', 'update_fragments', { fragments = self.currentFragments })		
+			
+		elseif message_id == hash('subtract_life') then
+			self.currentLife = self.currentLife - message.subtractLife
+			msg.post('game:/go#game', 'update_life', { life = self.currentLife })
+			
+		elseif message_id == hash('add_stars') then
+			self.currentStars = self.currentStars + message.addStars
+			msg.post('game:/go#game', 'update_stars', { stars = self.currentStars })
+			
+		elseif message_id == hash('add_fragments') then
+			self.currentFragments = self.currentFragments + message.addFragments
+			msg.post('game:/go#game', 'update_fragments', { fragments = self.currentFragments })		
+		end
+	end
+end
+
+enablePortal = function (self, enable)
+	if enable then
+		for i = 1, self.numPortals do
+			msg.post(self.portals[i], 'enable')
+		end
+	else
+		for i = 1, self.numPortals do
+			msg.post(self.portals[i], 'disable')
+		end
+	end
+end
+
+-- reseta os dados do jogo
+resetGame = function (self)
+	self.boardLine = 5
+	self.boardColumn = 6
+	self.numPortals = 5
+
+	if self.board ~= nil then
+		for x = 1, self.boardLine do
+			for y = 1, self.boardColumn  do
+				if self.board[x .. y] ~= nil then
+					msg.post(self.board[x .. y], 'destroy')
+				end
+			end
+		end
+	end
+
+	self.board = {}
+
+	self.numRoutes = 5
+	self.numAliens = 3
+	self.currentTime = 120 -- segundos
+	self.maxTime = 120 -- segundos
+	self.phase = 1
+	self.currentSpawnTime = 3 -- segundos
+	self.maxSpawnTime = 3 -- segundos
+
+	self.currentStars = 0
+	self.currentFragments = 30000
+	self.currentLife = 100
+
+	self.countEnemyRoutes = { 0, 0, 0, 0, 0 }
+	self.routes = {}
+
+	if self.portals == nil then
+		self.posPortals = {}
+		self.portals = {}
 	end
 end
 
@@ -161,14 +218,18 @@ end
 -- alerta todos os inimigos para comeca a atacar
 alertAllEnemyRouteAttack = function (self, route)
 	for i = 1, 6 do
-		msg.post(self.board[route .. i], 'start_attack')
+		if self.board[route .. i] ~= nil then
+			msg.post(self.board[route .. i], 'start_attack')
+		end
 	end
 end
 
 -- alerta todos os inimigos para parar de atacar
 alertAllEnemyRouteStop = function (self, route)
 	for i = 1, 6 do
-		msg.post(self.board[route .. i], 'stop_attack')
+		if self.board[route .. i] ~= nil then
+			msg.post(self.board[route .. i], 'stop_attack')
+		end
 	end
 end
 
@@ -185,9 +246,9 @@ end
 
 createPortals = function (self) 
 	for i = 1, 5 do
-		local portal = self.portals[i]
+		local portal = self.posPortals[i]
 		local posWorld = rendercam.screen_to_world_2d(portal.x, portal.y)
-		factory.create('main:/game#factory_portals', posWorld, nil, nil, 0.2)
+		self.portals[i] = factory.create('main:/game#factory_portals', posWorld, nil, nil, 0.2)
 	end
 end
 

@@ -1,0 +1,17 @@
+function init(self)
+
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash('destroy') then
+		go.delete()
+	elseif message_id == hash('enable') then
+		local pos = go.get_position()
+		pos.z = 0
+		go.set_position(pos)
+	elseif message_id == hash('disable') then
+		local pos = go.get_position()
+		pos.z = -10
+		go.set_position(pos)
+	end	
+end

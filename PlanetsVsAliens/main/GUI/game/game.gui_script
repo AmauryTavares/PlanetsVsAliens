@@ -8,6 +8,7 @@ local sendPosRoutes = nil
 local sendPosPortal = nil
 local loadPlanetSidebar = nil
 local loadInfobar = nil
+local updateStatusInfobar = nil
 
 function init(self)
 	msg.post('.', 'acquire_input_focus')
@@ -29,8 +30,16 @@ function init(self)
 	self.scale_progressbar = gui.get_scale(self.progressbar)
 
 	self.lb_stars = gui.get_node('lb_stars')
+	self.lb_stars_current = 0
+	self.lb_stars_final = self.lb_stars_current
+	
 	self.lb_fragments = gui.get_node('lb_fragments')
+	self.lb_fragments_current = 300
+	self.lb_fragments_final = self.lb_fragments_current
+	
 	self.lb_life = gui.get_node('lb_life')
+	self.lb_life_current = 100
+	self.lb_life_final = self.lb_life_current
 	
 	sendPosRoutes(self)
 	sendPosPortal(self)
@@ -40,6 +49,8 @@ function init(self)
 end
 
 function update(self, dt)
+	updateStatusInfobar(self, dt)
+	
 	if self.currentTime > 0 then
 		self.currentTime = self.currentTime - dt
 		
@@ -58,13 +69,11 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash('update_fragments') then
-		gui.set_text(self.lb_fragments, message.fragments)
+		self.lb_fragments_final =  message.fragments
 	elseif message_id == hash('update_life') then
-		gui.set_text(self.lb_life, message.life)
+		self.lb_life_final = message.life
 	elseif message_id == hash('update_stars') then
-		gui.set_text(self.lb_stars, message.stars)
-	elseif message_id == hash('update_fragments') then
-		gui.set_text(self.lb_fragments, message.fragments)
+		self.lb_stars_final = message.stars
 	end
 end
 
@@ -72,6 +81,23 @@ function on_input(self, action_id, action)
 	if action_id == hash('touch') then
 		handleTouch(self, action)
 	end	
+end
+
+-- atualiza os dados atuais da loadInfobar
+updateStatusInfobar = function (self, dt)
+	if self.lb_stars_final > self.lb_stars_current then
+		self.lb_stars_current = math.ceil(self.lb_stars_current + dt)
+	end
+
+	if self.lb_fragments_final > self.lb_fragments_current then
+		self.lb_fragments_current = math.ceil(self.lb_fragments_current + dt)
+	end
+
+	if self.lb_life_final < self.lb_life_current then
+		self.lb_life_current = math.floor(self.lb_life_current - dt)
+	end
+
+	loadInfobar(self, self.lb_stars_current, self.lb_fragments_current, self.lb_life_current)
 end
 
 -- carrega dados da infobar

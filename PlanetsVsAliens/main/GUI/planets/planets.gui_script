@@ -47,7 +47,8 @@ end
 function on_input(self, action_id, action)
 	if action_id == hash('touch') then
 		if gui.pick_node(self.bt_back, action.x, action.y) then
-			monarch.back()
+			monarch.hide('planets')
+			monarch.show('initial')
 		elseif action.released and self.enableUpgrade and gui.pick_node(self.bt_upgrade, action.x, action.y) then
 			upgradePlanet(self)
 		else

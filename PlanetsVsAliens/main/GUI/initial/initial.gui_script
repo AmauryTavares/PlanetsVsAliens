@@ -20,11 +20,11 @@ function on_input(self, action_id, action)
 		handleOverStart(self, action)
 	elseif action_id == hash('touch') then
 		if gui.pick_node(self.bt_start, action.x, action.y) then
-			monarch.show(hash('select'))
 			monarch.hide(hash('initial'))
+			monarch.show(hash('select'))
 		elseif gui.pick_node(self.bt_planets, action.x, action.y) then
-			monarch.show('planets')
 			monarch.hide('initial')
+			monarch.show('planets')
 		end
 	end
 end

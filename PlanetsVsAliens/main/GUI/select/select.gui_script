@@ -147,12 +147,13 @@ end
 
 handleClick = function (self, action)
 	if gui.pick_node(self.bt_back, action.x, action.y) then
-		monarch.back()
+		monarch.hide('select')
+		monarch.show('initial')
 	elseif gui.pick_node(self.bt_start, action.x, action.y) then
 		if checkSlotEmpty(self) == -1 then
 			oyster.set('planets_selected', self.planetsSelected)
-			monarch.show('game')
 			monarch.hide('select')
+			monarch.show('game')
 		end
 	elseif action.released and not self.scrolling then
 		self.scrolling = false

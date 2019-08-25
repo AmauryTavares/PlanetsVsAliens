@@ -1,0 +1,41 @@
+local monarch = require('monarch.monarch')
+local playerdata = require('oyster.playerdata')
+
+local playerdataFilePath = sys.get_save_file('PlanetsVsAliens', 'playerdata')
+
+function init(self)
+	msg.post('.', 'acquire_input_focus')	
+	self.box_initial = gui.get_node('box_initial')
+	self.box_record = gui.get_node('box_record')
+	self.lb_score = gui.get_node('lb_score')
+	self.lb_phase = gui.get_node('lb_phase')
+
+	data = monarch.data('final')
+	currentPlayerdata= playerdata.getAll(1)
+
+	gui.set_text(self.lb_score, data.score)
+	gui.set_text(self.lb_phase, 'Fase ' .. data.phase)
+
+	if currentPlayerdata.score > data.score then
+		gui.set_enabled(self.box_record, false)
+	else
+		currentPlayerdata.score = data.score
+	end
+
+	currentPlayerdata.stars = currentPlayerdata.stars + data.score
+	playerdata.setAll(1, currentPlayerdata)
+
+	-- salva os dados
+	if not sys.save(playerdataFilePath, playerdata.getAll(1)) then
+		print('Erro ao salvar dados.')
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash('touch') then
+		if gui.pick_node(self.box_initial, action.x, action.y) then
+			monarch.hide('final')
+			monarch.show('initial')
+		end	
+	end
+end
