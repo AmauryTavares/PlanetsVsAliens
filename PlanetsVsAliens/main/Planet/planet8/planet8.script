@@ -1,9 +1,12 @@
 go.property('cooldownAttack', 3) -- segundos
+go.property('level', 1)
 go.property('attack', 10)
 go.property('life', 100)
 
 go.property('boardPosX', 0)
 go.property('boardPosY', 0)
+
+local gamestate = require('oyster.gamestate')
 
 local attack = nil
 local reduceTime = nil
@@ -14,6 +17,7 @@ function init(self)
 
 	local pos = go.get_position()
 
+	label.set_text('#lb_level', 'Nivel ' .. self.level)
 	go.animate(go.get_id(), 'position.y', go.PLAYBACK_LOOP_PINGPONG, pos.y - 10, go.EASING_INOUTSINE, 3)
 end
 
@@ -24,6 +28,10 @@ end
 
 function update(self, dt)	
 	reduceTime(self, dt)
+
+	if not gamestate.is('PLAY') then
+		go.delete()
+	end
 end
 
 function on_message(self, message_id, message, sender)

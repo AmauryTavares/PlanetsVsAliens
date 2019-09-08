@@ -7,6 +7,8 @@ go.property('starsDrop', 100)
 go.property('fragmentsDrop', 50)
 go.property('damageLife', 1)
 
+local gamestate = require('oyster.gamestate')
+
 local reduceTime = nil
 local updatePos = nil
 
@@ -28,6 +30,10 @@ end
 function update(self, dt)
 	updatePos(self, dt)
 	reduceTime(self, dt)
+	
+	if not gamestate.is('PLAY') then
+		go.delete()
+	end
 end
 
 function on_message(self, message_id, message, sender)
@@ -65,7 +71,7 @@ reduceTime = function(self, dt)
 			local pos = go.get_position()
 			pos.x = pos.x - 80
 
-			factory.create('#factory_attack', pos, nil, { speed = 0, time = 0.5, damage = self.attack }, 0.3)
+			factory.create('#factory_attack', pos, nil, { speed = 0, time = 0.5, damage = self.attack }, 0.9)
 			self.currentCooldownAttack = self.cooldownAttack
 		end
 	end

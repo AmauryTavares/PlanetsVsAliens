@@ -11,12 +11,15 @@ local reduceTime = nil
 local createPortals = nil
 local alertRoute = nil
 local alertAllEnemyRouteAttack = nil
-local alertAllEnemyRouteStop = nil
+local alertAllEnemyRouteStopAttack = nil
 local loadData = nil
 local spawnPlanet = nil
 local spawnAlien = nil
+local buffStatus = nil
 local resetGame = nil
 local enablePortal = nil
+local fusionPlanet = nil
+local fusionPossible = nil
 
 function init(self)
 	resetGame(self)
@@ -38,6 +41,7 @@ function update(self, dt)
 		reduce_time(self, dt)
 		alertRoute(self)
 
+		-- finaliza a partida
 		if self.currentLife <= 0 then
 			monarch.hide('game')
 			monarch.show('final', nil, { phase = self.phase, score = self.currentStars })
@@ -60,26 +64,34 @@ function on_message(self, message_id, message, sender)
 			-- deleta planeta
 			if message.planetIndex == 5 then
 				if self.board[message.boardPosX .. message.boardPosY] then
-					msg.post(self.board[message.boardPosX .. message.boardPosY], 'destroy')
+					msg.post(self.board[message.boardPosX .. message.boardPosY].url, 'destroy')
 					self.board[message.boardPosX .. message.boardPosY] = nil
 				end
+			-- invoca planeta
 			elseif not self.board[message.boardPosX .. message.boardPosY] and self.currentFragments >= self.planets[idPlanet].status[idLevel].fragment then
-				-- invoca planeta
-				spawnPlanet(self, idPlanet, message.boardPosX, message.boardPosY, pos)
+				spawnPlanet(self, idPlanet, message.boardPosX, message.boardPosY, pos, 1)
 				self.currentFragments = self.currentFragments - self.planets[idPlanet].status[idLevel].fragment
 				msg.post('game:/go#game', 'update_fragments', { fragments = self.currentFragments })
 			end	
 			
+		-- fundi planetas
+		elseif message_id == hash('fusion_planet') then
+			fusionPlanet(self, message.firstX, message.firstY, message.secondX, message.secondY)
+
+		-- remove planeta do board
 		elseif message_id == hash('remove_planet_board') then
-			msg.post(self.board[message.boardPosX .. message.boardPosY], 'destroy')
+			msg.post(self.board[message.boardPosX .. message.boardPosY].url, 'destroy')
 			self.board[message.boardPosX .. message.boardPosY] = nil
-			
+
+		-- subtrai contadorr de inimigos da rota
 		elseif message_id == hash('enemy_kill') then
 			self.countEnemyRoutes[message.route] = self.countEnemyRoutes[message.route] - 1
-			
+
+		-- recebe rotas
 		elseif message_id == hash('update_routes') then
 			self.routes = message.routes
-			
+
+		-- cria/ativa portais
 		elseif message_id == hash('update_portals') then
 			self.posPortals = message.portals
 			if self.portals[1] == nil then
@@ -87,15 +99,18 @@ function on_message(self, message_id, message, sender)
 			else
 				enablePortal(self, true)
 			end
-			
+
+		-- atualiza quantidade vida atual
 		elseif message_id == hash('subtract_life') then
 			self.currentLife = self.currentLife - message.subtractLife
 			msg.post('game:/go#game', 'update_life', { life = self.currentLife })
-			
+
+		-- atualiza quantidade estrelas atual
 		elseif message_id == hash('add_stars') then
 			self.currentStars = self.currentStars + message.addStars
 			msg.post('game:/go#game', 'update_stars', { stars = self.currentStars })
-			
+
+		-- atualiza quantidade fragmentos atual	
 		elseif message_id == hash('add_fragments') then
 			self.currentFragments = self.currentFragments + message.addFragments
 			msg.post('game:/go#game', 'update_fragments', { fragments = self.currentFragments })		
@@ -103,6 +118,26 @@ function on_message(self, message_id, message, sender)
 	end
 end
 
+-- checa se os planetas sao fundiveis
+-- baseado em tipos iguais, mesmo nivel (no maximo nv 5) e vizinhos na horizontal ou vertical
+fusionPossible = function (self, firstX, firstY, secondX, secondY)
+	return (math.abs(firstX - secondX) + math.abs(firstY - secondY)) == 1 and self.boardLevel[firstX .. firstY] == self.boardLevel[secondX .. secondY] and self.boardLevel[firstX .. firstY] < 5 and self.board[firstX .. firstY].idPlanet == self.board[secondX .. secondY].idPlanet
+end
+
+-- fundi os planetas selecionados
+fusionPlanet = function (self, firstX, firstY, secondX, secondY)
+	if fusionPossible(self, firstX, firstY, secondX, secondY) then
+		msg.post(self.board[firstX .. firstY].url , 'destroy')
+		self.board[firstX .. firstY]  = nil
+		self.boardLevel[firstX .. firstY] = 0
+		
+		msg.post(self.board[secondX .. secondY].url , 'destroy')
+		self.boardLevel[secondX .. secondY] = self.boardLevel[secondX .. secondY] + 1
+		spawnPlanet(self, self.board[secondX .. secondY].idPlanet, secondX, secondY, self.board[secondX .. secondY].pos, self.boardLevel[secondX .. secondY])
+	end
+end
+
+-- ativa/desativa os portais
 enablePortal = function (self, enable)
 	if enable then
 		for i = 1, self.numPortals do
@@ -121,17 +156,8 @@ resetGame = function (self)
 	self.boardColumn = 6
 	self.numPortals = 5
 
-	if self.board ~= nil then
-		for x = 1, self.boardLine do
-			for y = 1, self.boardColumn  do
-				if self.board[x .. y] ~= nil then
-					msg.post(self.board[x .. y], 'destroy')
-				end
-			end
-		end
-	end
-
 	self.board = {}
+	self.boardLevel = {}
 
 	self.numRoutes = 5
 	self.numAliens = 3
@@ -154,35 +180,44 @@ resetGame = function (self)
 	end
 end
 
-spawnPlanet = function (self, idPlanet, boardPosX, boardPosY, pos)
-	local levelPlanet = self.levels[idPlanet]
+-- spawna planeta na posicao passada
+spawnPlanet = function (self, idPlanet, boardPosX, boardPosY, pos, levelPlanet)
 	local status = self.planets[idPlanet].status[levelPlanet]
 	status.effects = nil
 	status.boardPosX = boardPosX
 	status.boardPosY = boardPosY
+	status.level = levelPlanet
+
+	self.boardLevel[boardPosX .. boardPosY] = levelPlanet
+
+	self.board[boardPosX .. boardPosY] = {}
+	self.board[boardPosX .. boardPosY].idPlanet = idPlanet
+	self.board[boardPosX .. boardPosY].pos = pos
 	
 	if idPlanet == 1 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.7)
+		self.board[boardPosX .. boardPosY].url = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.7)
 	elseif idPlanet == 2 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.4)
+		self.board[boardPosX .. boardPosY].url  = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.4)
 	elseif idPlanet == 3 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.4)
+		self.board[boardPosX .. boardPosY].url  = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.4)
 	elseif idPlanet == 4 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.6)
+		self.board[boardPosX .. boardPosY].url  = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.6)
 	elseif idPlanet == 5 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.16)
+		self.board[boardPosX .. boardPosY].url  = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.16)
 	elseif idPlanet == 6 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.2)
+		self.board[boardPosX .. boardPosY].url  = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.2)
 	elseif idPlanet == 7 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.3)
+		self.board[boardPosX .. boardPosY].url  = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.3)
 	elseif idPlanet == 8 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.3)
+		self.board[boardPosX .. boardPosY].url  = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.3)
 	elseif idPlanet == 9 then
-		self.board[boardPosX .. boardPosY] = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.8)
+		self.board[boardPosX .. boardPosY].url  = factory.create('game#factory_planet' .. idPlanet, pos, nil, status, 0.8)
 	end
 end
 
-spawnAlien = function (self)
+-- spawna alien aleatoriamente
+spawnAlien = function (self, isBoss)
+	isBoss = isBoss or false
 	local idAlien = math.random(1, self.numAliens)
 	local randomRoute = math.random(1, self.numRoutes)
 	local route = self.routes[randomRoute]
@@ -194,14 +229,40 @@ spawnAlien = function (self)
 	status.name = nil
 	
 	if idAlien == 1 then
-		factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.2)
+		if isBoss then
+			buffStatus(status)
+			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.4)
+		else
+			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.2)
+		end
 	elseif idAlien == 2 then
-		factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.2)
+		if isBoss then
+			buffStatus(status)
+			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.4)
+		else
+			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.2)
+		end
 	elseif idAlien == 3 then
-		factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.2)
+		if isBoss then
+			buffStatus(status)
+			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.4)
+		else
+			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.2)
+		end
 	end
 end
 
+-- amplifica o status recebido
+buffStatus = function (status)
+	status.attack = status.attack * 5
+	status.life = status.life * 5
+	status.speed = status.speed / 3
+	status.starsDrop = status.starsDrop * 10
+	status.fragmentsDrop = status.fragmentsDrop * 10
+	status.damageLife = status.damageLife * 5
+end
+
+-- carrega os dados de aliens e planetas
 loadData = function (self)
 	local file = sys.load(playerdataFilePath)
 
@@ -218,17 +279,17 @@ end
 -- alerta todos os inimigos para comeca a atacar
 alertAllEnemyRouteAttack = function (self, route)
 	for i = 1, 6 do
-		if self.board[route .. i] ~= nil then
-			msg.post(self.board[route .. i], 'start_attack')
+		if self.board[route .. i]  ~= nil then
+			msg.post(self.board[route .. i].url, 'start_attack')
 		end
 	end
 end
 
 -- alerta todos os inimigos para parar de atacar
-alertAllEnemyRouteStop = function (self, route)
+alertAllEnemyRouteStopAttack = function (self, route)
 	for i = 1, 6 do
-		if self.board[route .. i] ~= nil then
-			msg.post(self.board[route .. i], 'stop_attack')
+		if self.board[route .. i]  ~= nil then
+			msg.post(self.board[route .. i].url, 'stop_attack')
 		end
 	end
 end
@@ -239,7 +300,7 @@ alertRoute = function (self)
 		if self.countEnemyRoutes[i] > 0 then
 			alertAllEnemyRouteAttack(self, i)
 		else
-			alertAllEnemyRouteStop(self, i)
+			alertAllEnemyRouteStopAttack(self, i)
 		end
 	end
 end
@@ -258,8 +319,11 @@ reduce_time = function (self, dt)
 		self.currentTime = self.currentTime - dt
 
 		if self.currentTime <= 0 then
+			-- spawn boss
+			spawnAlien(self, true)
 			self.phase = self.phase + 1
 			self.currentTime = self.maxTime
+			msg.post('game:/go#game', 'update_phase', { phase = self.phase })
 		end
 	end
 
