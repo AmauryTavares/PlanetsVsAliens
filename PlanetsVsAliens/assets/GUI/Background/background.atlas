@@ -1,7 +1,7 @@
 animations {
   id: "background"
   images {
-    image: "/assets/GUI/Background/background.png"
+    image: "/assets/GUI/Background/background_game.png"
   }
   playback: PLAYBACK_NONE
   fps: 60

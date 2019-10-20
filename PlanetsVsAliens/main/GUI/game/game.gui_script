@@ -25,7 +25,7 @@ function init(self)
 	self.currentPlanetSelect = nil
 	self.planetsSelected = oyster.get('planets_selected')
 
-	self.currentTime = 120
+	self.currentTime = 40
 
 	self.progressbar = gui.get_node('progressbar')
 	self.scale_progressbar = gui.get_scale(self.progressbar)
@@ -35,7 +35,7 @@ function init(self)
 	self.lb_stars_final = self.lb_stars_current
 	
 	self.lb_fragments = gui.get_node('lb_fragments')
-	self.lb_fragments_current = 300
+	self.lb_fragments_current = 500
 	self.lb_fragments_final = self.lb_fragments_current
 	
 	self.lb_life = gui.get_node('lb_life')
@@ -61,12 +61,12 @@ function update(self, dt)
 		self.currentTime = self.currentTime - dt
 		
 		local newScale = self.scale_progressbar
-		newScale.x = 0.625 * ((120 - self.currentTime) / 120)
+		newScale.x = 0.625 * ((40 - self.currentTime) / 40)
 
 		gui.set_scale(self.progressbar, newScale)
 		
 		if self.currentTime <= 0 then
-			self.currentTime = 120
+			self.currentTime = 40
 		end
 	end
 end
@@ -97,6 +97,8 @@ updateStatusInfobar = function (self, dt)
 
 	if self.lb_fragments_final > self.lb_fragments_current then
 		self.lb_fragments_current = math.ceil(self.lb_fragments_current + dt)
+	elseif self.lb_fragments_final < self.lb_fragments_current then
+		self.lb_fragments_current = math.floor(self.lb_fragments_current - dt)
 	end
 
 	if self.lb_life_final < self.lb_life_current then
@@ -164,7 +166,7 @@ end
 updatePosPlanet = function (self, touch)
 	if self.currentPlanetIndex then
 		local pos = gui.get_position(self.currentPlanetSelect)
-		gui.set_position(self.currentPlanetSelect, vmath.vector3(pos.x + touch.screen_dx, pos.y + touch.screen_dy, pos.z + 0))
+		gui.set_position(self.currentPlanetSelect, vmath.vector3(touch.x - 100, touch.y + 100, pos.z + 0))
 	end
 end
 

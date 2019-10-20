@@ -187,12 +187,12 @@ handleClick = function (self, action)
 		local pos = gui.get_position(self.box_select)
 		pos.x = pos.x + action.screen_dx
 
-		if action.screen_dx >= 1 then
+		if action.screen_dx >= -30 and action.screen_dx <= -5 or action.screen_dx >= 5 and action.screen_dx <= 30 then
 			self.scrolling = true
 		end
 
 		-- checa se o scroll nao passou do limite
-		if checkLimitScroll(self, pos) then
+		if checkLimitScroll(self, pos) and self.scrolling then
 			gui.set_position(self.box_select, pos)
 		end
 	end

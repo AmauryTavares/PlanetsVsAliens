@@ -5,43 +5,43 @@ return {
 			name = 'Mercurio',
 			status = {
 				{
-					price = 100,
-					fragment = 100,
+					price = 0,
+					fragment = 250,
 					effects = {},
-					attack = 10,
-					life = 200, 
+					attack = 600,
+					life = 600, 
 					cooldownAttack = 4
 				},
 				{
-					price = 300,
-					fragment = 100,
+					price = 2000,
+					fragment = 250,
 					effects = {},
-					attack = 20,
-					life = 350, 
-					cooldownAttack = 3.7
-				},
-				{
-					price = 200,
-					fragment = 100,
-					effects = {},
-					attack = 10,
-					life = 200, 
+					attack = 800,
+					life = 600, 
 					cooldownAttack = 4
 				},
 				{
-					price = 200,
-					fragment = 100,
+					price = 8000,
+					fragment = 250,
 					effects = {},
-					attack = 10,
-					life = 200, 
+					attack = 1000,
+					life = 600, 
 					cooldownAttack = 4
 				},
 				{
-					price = 200,
-					fragment = 100,
+					price = 32000,
+					fragment = 250,
 					effects = {},
-					attack = 30,
-					life = 200, 
+					attack = 1200,
+					life = 600, 
+					cooldownAttack = 4
+				},
+				{
+					price = 128000,
+					fragment = 250,
+					effects = {},
+					attack = 1400,
+					life = 600, 
 					cooldownAttack = 4
 				},
 			}
@@ -51,36 +51,44 @@ return {
 			name = 'Venus',
 			status = {
 				{
-					price = 500,
-					fragment = 200,
+					price = 0,
+					fragment = 250,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 600,
+					life = 1000, 
+					cooldownAttack = 5
 				},
 				{
-					price = 700,
-					fragment = 200,
+					price = 2000,
+					fragment = 250,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 600,
+					life = 1300, 
+					cooldownAttack = 4.6
 				},
 				{
-					price = 200,
-					fragment = 200,
+					price = 8000,
+					fragment = 250,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 600,
+					life = 1600, 
+					cooldownAttack = 4.2
 				},
 				{
-					price = 200,
-					fragment = 200,
+					price = 32000,
+					fragment = 250,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 600,
+					life = 1900, 
+					cooldownAttack = 3.8
+				},
+				{
+					price = 128000,
+					fragment = 250,
+					effects = {},
+					attack = 600,
+					life = 2200, 
+					cooldownAttack = 3.4
 				},
 			}
 		},
@@ -89,27 +97,43 @@ return {
 			name = 'Terra',
 			status = {
 				{
-					price = 250,
-					fragment = 300,
+					price = 0,
+					fragment = 100,
 					effects = {},
-					attack = 10,
-					life = 200, 
+					attack = 400,
+					life = 1000, 
 					cooldownAttack = 4
 				},
 				{
-					price = 200,
-					fragment = 300,
+					price = 2000,
+					fragment = 100,
 					effects = {},
-					attack = 10,
-					life = 200, 
+					attack = 500,
+					life = 1300, 
 					cooldownAttack = 4
 				},
 				{
-					price = 1000,
-					fragment = 300,
+					price = 8000,
+					fragment = 100,
 					effects = {},
-					attack = 10,
-					life = 200, 
+					attack = 600,
+					life = 1600, 
+					cooldownAttack = 4
+				},
+				{
+					price = 32000,
+					fragment = 100,
+					effects = {},
+					attack = 700,
+					life = 1900, 
+					cooldownAttack = 4
+				},
+				{
+					price = 128000,
+					fragment = 100,
+					effects = {},
+					attack = 800,
+					life = 2200, 
 					cooldownAttack = 4
 				},
 			}
@@ -119,28 +143,44 @@ return {
 			name = 'Marte',
 			status = {
 				{
-					price = 200,
-					fragment = 400,
+					price = 0,
+					fragment = 100,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 600,
+					life = 600, 
+					cooldownAttack = 6
 				},
 				{
-					price = 200,
-					fragment = 400,
+					price = 2000,
+					fragment = 100,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 600,
+					life = 600, 
+					cooldownAttack = 5.2
 				},
 				{
-					price = 200,
-					fragment = 400,
+					price = 8000,
+					fragment = 100,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 600,
+					life = 600, 
+					cooldownAttack = 4.4
+				},
+				{
+					price = 32000,
+					fragment = 100,
+					effects = {},
+					attack = 600,
+					life = 600, 
+					cooldownAttack = 3.6
+				},
+				{
+					price = 128000,
+					fragment = 100,
+					effects = {},
+					attack = 600,
+					life = 600, 
+					cooldownAttack = 2.8
 				},
 			}
 		},
@@ -149,27 +189,43 @@ return {
 			name = 'Jupiter',
 			status = {
 				{
-					price = 200,
-					fragment = 500,
+					price = 0,
+					fragment = 100,
 					effects = {},
-					attack = 10,
-					life = 200, 
+					attack = 100,
+					life = 2200, 
 					cooldownAttack = 4
 				},
 				{
-					price = 200,
-					fragment = 500,
+					price = 2000,
+					fragment = 100,
 					effects = {},
-					attack = 10,
-					life = 200, 
+					attack = 100,
+					life = 2800, 
 					cooldownAttack = 4
 				},
 				{
-					price = 200,
-					fragment = 500,
+					price = 8000,
+					fragment = 100,
 					effects = {},
-					attack = 10,
-					life = 200, 
+					attack = 100,
+					life = 3400, 
+					cooldownAttack = 4
+				},
+				{
+					price = 32000,
+					fragment = 100,
+					effects = {},
+					attack = 100,
+					life = 4000, 
+					cooldownAttack = 4
+				},
+				{
+					price = 128000,
+					fragment = 100,
+					effects = {},
+					attack = 100,
+					life = 4600, 
 					cooldownAttack = 4
 				},
 			}
@@ -179,28 +235,44 @@ return {
 			name = 'Saturno',
 			status = {
 				{
-					price = 200,
-					fragment = 600,
+					price = 0,
+					fragment = 250,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 300,
+					life = 2200, 
+					cooldownAttack = 6
 				},
 				{
-					price = 200,
-					fragment = 600,
+					price = 2000,
+					fragment = 250,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 400,
+					life = 2500, 
+					cooldownAttack = 6
 				},
 				{
-					price = 200,
-					fragment = 600,
+					price = 8000,
+					fragment = 250,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 500,
+					life = 2800, 
+					cooldownAttack = 6
+				},
+				{
+					price = 32000,
+					fragment = 250,
+					effects = {},
+					attack = 600,
+					life = 3100, 
+					cooldownAttack = 6
+				},
+				{
+					price = 128000,
+					fragment = 250,
+					effects = {},
+					attack = 700,
+					life = 3400, 
+					cooldownAttack = 6
 				},
 			}
 		},
@@ -209,28 +281,44 @@ return {
 			name = 'Urano',
 			status = {
 				{
-					price = 200,
-					fragment = 700,
+					price = 0,
+					fragment = 500,
 					effects = {},
-					attack = 10,
-					life = 200, 
+					attack = 400,
+					life = 1600, 
 					cooldownAttack = 4
 				},
 				{
-					price = 200,
-					fragment = 700,
+					price = 2000,
+					fragment = 500,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 400,
+					life = 1600, 
+					cooldownAttack = 3.2
 				},
 				{
-					price = 200,
-					fragment = 700,
+					price = 8000,
+					fragment = 500,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 400,
+					life = 1600, 
+					cooldownAttack = 2.4
+				},
+				{
+					price = 32000,
+					fragment = 500,
+					effects = {},
+					attack = 400,
+					life = 1600, 
+					cooldownAttack = 1.6
+				},
+				{
+					price = 128000,
+					fragment = 500,
+					effects = {},
+					attack = 400,
+					life = 1600, 
+					cooldownAttack = 0.8
 				},
 			}
 		},
@@ -239,28 +327,44 @@ return {
 			name = 'Netuno',
 			status = {
 				{
-					price = 200,
-					fragment = 800,
+					price = 0,
+					fragment = 250,
 					effects = {},
-					attack = 10,
-					life = 200, 
+					attack = 200,
+					life = 1600, 
 					cooldownAttack = 4
 				},
 				{
-					price = 200,
-					fragment = 800,
+					price = 2000,
+					fragment = 250,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 300,
+					life = 1600, 
+					cooldownAttack = 3.6
 				},
 				{
-					price = 200,
-					fragment = 800,
+					price = 8000,
+					fragment = 250,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 400,
+					life = 1600, 
+					cooldownAttack = 3.2
+				},
+				{
+					price = 32000,
+					fragment = 250,
+					effects = {},
+					attack = 500,
+					life = 1600, 
+					cooldownAttack = 2.8
+				},
+				{
+					price = 128000,
+					fragment = 250,
+					effects = {},
+					attack = 600,
+					life = 1600, 
+					cooldownAttack = 2.4
 				},
 			}
 		},
@@ -269,28 +373,44 @@ return {
 			name = 'Plutao',
 			status = {
 				{
-					price = 200,
-					fragment = 900,
+					price = 0,
+					fragment = 500,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 600,
+					life = 400, 
+					cooldownAttack = 2
 				},
 				{
-					price = 200,
-					fragment = 900,
+					price = 2000,
+					fragment = 500,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 700,
+					life = 400, 
+					cooldownAttack = 1.6
 				},
 				{
-					price = 200,
-					fragment = 900,
+					price = 8000,
+					fragment = 500,
 					effects = {},
-					attack = 10,
-					life = 200, 
-					cooldownAttack = 4
+					attack = 800,
+					life = 400, 
+					cooldownAttack = 1.2
+				},
+				{
+					price = 32000,
+					fragment = 500,
+					effects = {},
+					attack = 900,
+					life = 400, 
+					cooldownAttack = 0.8
+				},
+				{
+					price = 128000,
+					fragment = 500,
+					effects = {},
+					attack = 1000,
+					life = 400, 
+					cooldownAttack = 0.4
 				},
 			}
 		},

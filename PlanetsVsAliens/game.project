@@ -18,23 +18,6 @@ dynamic_orientation = 1
 display_profiles = /builtins/render/default.display_profilesc
 
 [ios]
-launch_image_320x480 = /assets/launch_images/ios_launch_320x480.png
-launch_image_640x960 = /assets/launch_images/ios_launch_640x960.png
-launch_image_640x1136 = /assets/launch_images/ios_launch_640x1136.png
-launch_image_750x1334 = /assets/launch_images/ios_launch_750x1334.png
-launch_image_768x1024 = /assets/launch_images/ios_launch_768x1024.png
-launch_image_1536x2048 = /assets/launch_images/ios_launch_1536x2048.png
-launch_image_1024x768 = /assets/launch_images/ios_launch_1024x768.png
-launch_image_1242x2208 = /assets/launch_images/ios_launch_1242x2208.png
-launch_image_2208x1242 = /assets/launch_images/ios_launch_2208x1242.png
-launch_image_2048x1536 = /assets/launch_images/ios_launch_2048x1536.png
-launch_image_2048x2732 = /assets/launch_images/ios_launch_2048x2732.png
-launch_image_2732x2048 = /assets/launch_images/ios_launch_2732x2048.png
-launch_image_1334x750 = /assets/launch_images/ios_launch_1334x750.png
-launch_image_1125x2436 = /assets/launch_images/ios_launch_1125x2436.png
-launch_image_2436x1125 = /assets/launch_images/ios_launch_2436x1125.png
-launch_image_1668x2224 = /assets/launch_images/ios_launch_1668x2224.png
-launch_image_2224x1668 = /assets/launch_images/ios_launch_2224x1668.png
 bundle_identifier = com.example.todo
 
 [osx]
@@ -42,7 +25,7 @@ bundle_identifier = com.example.todo
 
 [android]
 input_method = HiddenInputField
-package = com.pva
+package = com.planetvsaliens
 
 [script]
 shared_state = 1

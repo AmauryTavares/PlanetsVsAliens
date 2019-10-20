@@ -1368,8 +1368,8 @@ nodes {
 }
 nodes {
   position {
-    x: 5.17
-    y: -10.713
+    x: 43.743
+    y: -40.537
     z: 0.0
     w: 1.0
   }
@@ -1380,14 +1380,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.024
-    y: 0.019
+    x: 0.064
+    y: 0.047
     z: 1.0
     w: 1.0
   }
   size {
-    x: 1536.0
-    y: 1536.0
+    x: 520.0
+    y: 520.0
     z: 0.0
     w: 1.0
   }
@@ -1400,7 +1400,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "frame/frame1"
-  id: "planet1"
+  id: "planet5"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
@@ -1423,8 +1423,8 @@ nodes {
 }
 nodes {
   position {
-    x: 228.371
-    y: -212.976
+    x: 68.405
+    y: -59.737
     z: 0.0
     w: 1.0
   }
@@ -1435,8 +1435,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 2.019
-    y: 2.087
+    x: 0.75
+    y: 0.778
     z: 1.0
     w: 1.0
   }
@@ -1454,13 +1454,13 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "planet1/idle"
-  id: "img_planet1"
+  texture: "planet5/idle"
+  id: "img_planet5"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_NW
   adjust_mode: ADJUST_MODE_FIT
-  parent: "planet1"
+  parent: "planet5"
   layer: ""
   inherit_alpha: true
   slice9 {
@@ -1490,14 +1490,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.024
-    y: 0.019
+    x: 0.064
+    y: 0.047
     z: 1.0
     w: 1.0
   }
   size {
-    x: 1536.0
-    y: 1536.0
+    x: 520.0
+    y: 520.0
     z: 0.0
     w: 1.0
   }
@@ -1533,8 +1533,8 @@ nodes {
 }
 nodes {
   position {
-    x: 228.371
-    y: -212.976
+    x: 68.405
+    y: -59.737
     z: 0.0
     w: 1.0
   }
@@ -1545,8 +1545,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 2.019
-    y: 2.087
+    x: 0.75
+    y: 0.778
     z: 1.0
     w: 1.0
   }
@@ -1600,14 +1600,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.024
-    y: 0.019
+    x: 0.064
+    y: 0.047
     z: 1.0
     w: 1.0
   }
   size {
-    x: 1536.0
-    y: 1536.0
+    x: 520.0
+    y: 520.0
     z: 0.0
     w: 1.0
   }
@@ -1643,8 +1643,8 @@ nodes {
 }
 nodes {
   position {
-    x: 228.371
-    y: -212.976
+    x: 68.405
+    y: -59.737
     z: 0.0
     w: 1.0
   }
@@ -1655,8 +1655,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 2.019
-    y: 2.087
+    x: 0.75
+    y: 0.778
     z: 1.0
     w: 1.0
   }
@@ -1710,14 +1710,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.024
-    y: 0.019
+    x: 0.064
+    y: 0.047
     z: 1.0
     w: 1.0
   }
   size {
-    x: 1536.0
-    y: 1536.0
+    x: 520.0
+    y: 520.0
     z: 0.0
     w: 1.0
   }
@@ -1753,8 +1753,8 @@ nodes {
 }
 nodes {
   position {
-    x: 228.371
-    y: -212.976
+    x: 68.405
+    y: -59.737
     z: 0.0
     w: 1.0
   }
@@ -1765,8 +1765,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 2.019
-    y: 2.087
+    x: 0.75
+    y: 0.778
     z: 1.0
     w: 1.0
   }
@@ -1808,116 +1808,6 @@ nodes {
 }
 nodes {
   position {
-    x: 43.743
-    y: -40.537
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 0.024
-    y: 0.019
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 1536.0
-    y: 1536.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "frame/frame1"
-  id: "planet5"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "background"
-  layer: ""
-  inherit_alpha: false
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_AUTO
-}
-nodes {
-  position {
-    x: 228.371
-    y: -212.976
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 2.019
-    y: 2.087
-    z: 1.0
-    w: 1.0
-  }
-  size {
-    x: 512.0
-    y: 512.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "planet5/idle"
-  id: "img_planet5"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_NW
-  adjust_mode: ADJUST_MODE_FIT
-  parent: "planet5"
-  layer: ""
-  inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_AUTO
-}
-nodes {
-  position {
     x: 81.799
     y: -40.537
     z: 0.0
@@ -1930,14 +1820,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.024
-    y: 0.019
+    x: 0.064
+    y: 0.047
     z: 1.0
     w: 1.0
   }
   size {
-    x: 1536.0
-    y: 1536.0
+    x: 520.0
+    y: 520.0
     z: 0.0
     w: 1.0
   }
@@ -1973,8 +1863,8 @@ nodes {
 }
 nodes {
   position {
-    x: 228.371
-    y: -212.976
+    x: 68.405
+    y: -59.737
     z: 0.0
     w: 1.0
   }
@@ -1985,8 +1875,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 2.019
-    y: 2.087
+    x: 0.75
+    y: 0.778
     z: 1.0
     w: 1.0
   }
@@ -2040,14 +1930,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.024
-    y: 0.019
+    x: 0.064
+    y: 0.047
     z: 1.0
     w: 1.0
   }
   size {
-    x: 1536.0
-    y: 1536.0
+    x: 520.0
+    y: 520.0
     z: 0.0
     w: 1.0
   }
@@ -2083,8 +1973,8 @@ nodes {
 }
 nodes {
   position {
-    x: 228.371
-    y: -212.976
+    x: 68.405
+    y: -59.737
     z: 0.0
     w: 1.0
   }
@@ -2095,8 +1985,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 2.019
-    y: 2.087
+    x: 0.75
+    y: 0.778
     z: 1.0
     w: 1.0
   }
@@ -2138,6 +2028,116 @@ nodes {
 }
 nodes {
   position {
+    x: 5.17
+    y: -10.898
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.064
+    y: 0.047
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 520.0
+    y: 520.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "frame/frame1"
+  id: "planet1"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_NW
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "background"
+  layer: ""
+  inherit_alpha: false
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 68.405
+    y: -59.737
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.75
+    y: 0.778
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 512.0
+    y: 512.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "planet1/idle"
+  id: "img_planet1"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_NW
+  adjust_mode: ADJUST_MODE_FIT
+  parent: "planet1"
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
     x: 43.743
     y: -70.454
     z: 0.0
@@ -2150,14 +2150,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.024
-    y: 0.019
+    x: 0.064
+    y: 0.047
     z: 1.0
     w: 1.0
   }
   size {
-    x: 1536.0
-    y: 1536.0
+    x: 520.0
+    y: 520.0
     z: 0.0
     w: 1.0
   }
@@ -2193,8 +2193,8 @@ nodes {
 }
 nodes {
   position {
-    x: 228.371
-    y: -212.976
+    x: 68.405
+    y: -59.737
     z: 0.0
     w: 1.0
   }
@@ -2205,8 +2205,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 2.019
-    y: 2.087
+    x: 0.75
+    y: 0.778
     z: 1.0
     w: 1.0
   }
@@ -2260,14 +2260,14 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 0.024
-    y: 0.019
+    x: 0.064
+    y: 0.047
     z: 1.0
     w: 1.0
   }
   size {
-    x: 1536.0
-    y: 1536.0
+    x: 520.0
+    y: 520.0
     z: 0.0
     w: 1.0
   }
@@ -2303,8 +2303,8 @@ nodes {
 }
 nodes {
   position {
-    x: 228.371
-    y: -212.976
+    x: 68.405
+    y: -59.737
     z: 0.0
     w: 1.0
   }
@@ -2315,8 +2315,8 @@ nodes {
     w: 1.0
   }
   scale {
-    x: 2.019
-    y: 2.087
+    x: 0.75
+    y: 0.778
     z: 1.0
     w: 1.0
   }

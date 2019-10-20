@@ -119,9 +119,18 @@ function on_message(self, message_id, message, sender)
 end
 
 -- checa se os planetas sao fundiveis
--- baseado em tipos iguais, mesmo nivel (no maximo nv 5) e vizinhos na horizontal ou vertical
+-- baseado em tipos iguais, mesmo nivel (no maximo nv 5), vizinhos na horizontal ou vertical e nível disponível
 fusionPossible = function (self, firstX, firstY, secondX, secondY)
-	return (math.abs(firstX - secondX) + math.abs(firstY - secondY)) == 1 and self.boardLevel[firstX .. firstY] == self.boardLevel[secondX .. secondY] and self.boardLevel[firstX .. firstY] < 5 and self.board[firstX .. firstY].idPlanet == self.board[secondX .. secondY].idPlanet
+
+	if self.board[firstX .. firstY] ~= nil and self.board[secondX .. secondY] ~= nil then
+		boardNeighbor = (math.abs(firstX - secondX) + math.abs(firstY - secondY)) == 1
+		levelIqual = self.boardLevel[firstX .. firstY] == self.boardLevel[secondX .. secondY]
+		LevelAvailable = self.boardLevel[firstX .. firstY] < 5 and self.boardLevel[firstX .. firstY] < self.levels[self.board[firstX .. firstY].idPlanet]
+		planetType = self.board[firstX .. firstY].idPlanet == self.board[secondX .. secondY].idPlanet
+		return boardNeighbor and levelIqual and LevelAvailable and planetType
+	end
+	
+	return false
 end
 
 -- fundi os planetas selecionados
@@ -161,14 +170,14 @@ resetGame = function (self)
 
 	self.numRoutes = 5
 	self.numAliens = 3
-	self.currentTime = 120 -- segundos
-	self.maxTime = 120 -- segundos
+	self.currentTime = 40 -- segundos
+	self.maxTime = 40 -- segundos
 	self.phase = 1
-	self.currentSpawnTime = 3 -- segundos
-	self.maxSpawnTime = 3 -- segundos
+	self.currentSpawnTime = 5 -- segundos
+	self.maxSpawnTime = 5 -- segundos
 
 	self.currentStars = 0
-	self.currentFragments = 30000
+	self.currentFragments = 500
 	self.currentLife = 100
 
 	self.countEnemyRoutes = { 0, 0, 0, 0, 0 }
@@ -226,40 +235,59 @@ spawnAlien = function (self, isBoss)
 
 	local status = self.aliens[idAlien]
 	status.route = randomRoute
-	status.name = nil
+	-- status.name = nil
 	
 	if idAlien == 1 then
+		print(status.speed , 'a1')
 		if isBoss then
-			buffStatus(status)
-			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.4)
+			newStatus = buffStatus(self, status, 1)
+			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, newStatus, 0.3)
 		else
-			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.2)
+			newStatus = buffStatus(self, status, 0.5)
+			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, newStatus, 0.2)
 		end
 	elseif idAlien == 2 then
+		print(status.speed , 'a2')
 		if isBoss then
-			buffStatus(status)
-			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.4)
+			newStatus = buffStatus(self, status, 1)
+			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, newStatus, 0.3)
 		else
-			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.2)
+			newStatus = buffStatus(self, status, 0.5)
+			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, newStatus, 0.2)
 		end
 	elseif idAlien == 3 then
+		print(status.speed , 'a3')
 		if isBoss then
-			buffStatus(status)
-			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.4)
+			newStatus = buffStatus(self, status, 1)
+			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, newStatus, 0.3)
 		else
-			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, status, 0.2)
+			newStatus = buffStatus(self, status, 0.5)
+			factory.create('main:/game#factory_alien' .. idAlien, posWorld, nil, newStatus, 0.2)
 		end
 	end
 end
 
 -- amplifica o status recebido
-buffStatus = function (status)
-	status.attack = status.attack * 5
-	status.life = status.life * 5
-	status.speed = status.speed / 3
-	status.starsDrop = status.starsDrop * 10
-	status.fragmentsDrop = status.fragmentsDrop * 10
-	status.damageLife = status.damageLife * 5
+buffStatus = function (self, status, multiplier)
+
+	newStatus = {}
+	
+	if (self.phase * multiplier) > 1 then
+		modifier = self.phase * multiplier
+	else 
+		modifier = 1 -- status base
+	end
+
+	newStatus.attack = math.floor(status.attack * modifier)
+	newStatus.life = math.floor(status.life * modifier)
+	newStatus.speed = math.floor(status.speed * 0.75)
+	newStatus.cooldownAttack = math.floor(status.cooldownAttack / modifier)
+	newStatus.starsDrop = math.floor(status.starsDrop * modifier)
+	newStatus.fragmentsDrop = math.floor(status.fragmentsDrop * modifier)
+	newStatus.damageLife = math.floor(status.damageLife * modifier)
+	newStatus.route = status.route
+
+	return newStatus
 end
 
 -- carrega os dados de aliens e planetas
@@ -271,9 +299,11 @@ loadData = function (self)
 	end
 
 	playerdata.setAll(1, file)	
+	local planetsdata = require('main.data.planetsdata')
+	local aliensdata = require('main.data.aliensdata')
 	
-	oyster.set('planetsdata', require('main.data.planetsdata'))
-	oyster.set('aliensdata', require('main.data.aliensdata'))
+	oyster.set('planetsdata', planetsdata)
+	oyster.set('aliensdata', aliensdata)
 end
 
 -- alerta todos os inimigos para comeca a atacar
@@ -323,6 +353,11 @@ reduce_time = function (self, dt)
 			spawnAlien(self, true)
 			self.phase = self.phase + 1
 			self.currentTime = self.maxTime
+
+			-- diminui o tempo de spawn de aliens
+			if self.maxSpawnTime > 1 then
+				self.maxSpawnTime = self.maxSpawnTime - 0.2
+			end
 			msg.post('game:/go#game', 'update_phase', { phase = self.phase })
 		end
 	end
